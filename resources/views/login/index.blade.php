@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Cadastro - Alumni</title>
+		<title>Login - Alumni</title>
 		<link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap-grid.min.css')}}">
 		<link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap-reboot.min.css')}}">
 		<link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
@@ -16,9 +16,9 @@
 
 		<div class="container" >
 			<div class="row justify-content-center">
-				<div class="col-md-5 card border-0 pr-0 pl-0 shadow pb-2 mg-t-5 mb-4">
+				<div class="col-md-6 card border-0 pr-0 pl-0 shadow pb-2 mg-t-5">
 					<div class="card-header pl-4 border-0" id="cardLogin">
-						<h3>Cadastre-se no Alumni</h3>
+						<h3>Bem-vindo ao Alumni</h3>
 						<p>Encontre ex-alunos e estabeleça contato pessoal e profissional.</p>
 					</div>
 					<div class="card-body">
@@ -27,9 +27,9 @@
 					          {{ session()->get('success') }}  
 					        </div>
 					    @endif
-					    @if(session()->get('erro'))
+					    @if(isset($erro))
 					        <div class="alert alert-danger">
-					          {{ session()->get('erro') }}  
+					          {{ $erro }}  
 					        </div>
 					    @endif
 					    @if ($errors->any())
@@ -41,20 +41,30 @@
 					          </ul>
 					        </div>
 					    @endif
-						<form class="mg-t-3" method="POST" action="{{route('cadastro.validar')}}">
+						<form class="mg-t-3" action="{{route('logar')}}" method="POST">
 							<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 							<div class="col-12 my-1 mt-4">
-						      	<label class="sr-only" for="email">CPF</label>
+						      	<label class="sr-only" for="email">Email</label>
 						      	<div class="input-group rounded-pill border">
 						        	<div class="input-group-prepend">
-						          		<div class="input-group-text border-0 bg-transparent"><i class="far fa-id-card"></i></div>
+						          		<div class="input-group-text border-0 bg-transparent"><i class="fas fa-user"></i></div>
 						        	</div>
-						        	<input type="text" class="form-control border-0 rounded-pill" id="cpfAluno" name="cpfAluno" placeholder="Digite seu CPF" required="" onkeypress="$(this).mask('000.000.000-00');">
+						        	<input type="email" class="form-control border-0 rounded-pill" id="email" name="email" placeholder="Digite seu email" maxlength="120" required="">
 						      	</div>
 						    </div>
-						    <button class="btn col-8 offset-2 btn-alumni rounded-pill mt-4 mb-2">Prosseguir <i class="fas fa-chevron-right ml-2"></i></button>
+						    <div class="col-12 my-1 mt-4 mb-2">
+						      	<label class="sr-only" for="password">Senha</label>
+						      	<div class="input-group rounded-pill border">
+						        	<div class="input-group-prepend">
+						          		<div class="input-group-text border-0 bg-transparent"><i class="fas fa-lock"></i></div>
+						        	</div>
+						        	<input type="password" class="form-control border-0 rounded-pill" id="password" name="password" placeholder="Digite sua senha" required="">
+						      	</div>
+						    </div>
+						    <button class="btn col-8 offset-2 btn-alumni rounded-pill mt-4 mb-2">Login</button>
 						</form>
-						<p class="text-center mg-t-3 text-blue"><a href="{{route('login')}}">Já possuo conta: Fazer Login</a></p>
+						<p class="text-center">Esqueci minha senha</p>
+						<p class="text-center mg-t-3 text-blue"><a href="{{route('cadastro')}}">Não possuo conta: Registre-se</a></p>
 					</div>
 				</div>
 			</div>
@@ -64,4 +74,4 @@
 		<script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
 		<script type="text/javascript" src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
 	</body>
-</html>
+</html>n

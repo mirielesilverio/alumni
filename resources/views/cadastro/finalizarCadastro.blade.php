@@ -27,9 +27,9 @@
 					          {{ session()->get('success') }}  
 					        </div>
 					    @endif
-					    @if(isset($error))
+					    @if(isset($erro))
 					        <div class="alert alert-danger">
-					          {{ $error }}  
+					          {{ $erro }}  
 					        </div>
 					    @endif
 					    @if ($errors->any())

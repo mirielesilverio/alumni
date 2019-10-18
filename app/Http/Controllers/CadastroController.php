@@ -7,6 +7,8 @@ use App\Matricula;
 use App\UsuarioAluno;
 use App\Login;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class CadastroController extends Controller
 {
@@ -47,14 +49,13 @@ class CadastroController extends Controller
             'senha' => 'required',
             'confirmaSenha' => 'required'
         ]);
-
-        $aluno =DB::table('usuarioaluno')->where('cpf', $request->get('cpf'))->first();
         $generos = DB::table('genero')->get();
 
         if ($request->get('senha') != $request->get('confirmaSenha')) 
         {
-            $error = 'As senhas devem ser idênticas';
-            return view('cadastro.finalizarCadastro', compact(('aluno'),('generos'),('error')));
+            $aluno = DB::table('usuarioaluno')->where('cpf', $request->get('cpfAluno'))->first();
+            $erro = 'As senhas devem ser idênticas';
+            return view('cadastro.finalizarCadastro', compact(('aluno'),('generos'),('erro')));
         }
 
         else
@@ -62,16 +63,18 @@ class CadastroController extends Controller
 
             if (DB::table('login')->where('email', $request->get('email'))->exists()) 
             {
-                $error = 'Email já Cadastrado';
-                return view('cadastro.finalizarCadastro', compact(('aluno'),('generos'),('error')));
+                $aluno = DB::table('usuarioaluno')->where('cpf', $request->get('cpfAluno'))->first();
+                $erro = 'Email já Cadastrado';
+                return view('cadastro.finalizarCadastro', compact(('aluno'),('generos'),('erro')));
             }
 
             else
             {
+                $aluno = UsuarioAluno::find($request->get('cpf'));
 
                 $login = new Login([
                     'email' => $request->get('email'),
-                    'senha' => $request->get('senha'),
+                    'password' => Hash::make($request->get('senha')),
                     'idTipoUsuario' => 1
                 ]);
 
@@ -87,7 +90,7 @@ class CadastroController extends Controller
 
                 $aluno->save();
 
-                return view('cadastro.finalizarCadastro', compact(('aluno'),('generos')))->with('success','teste');
+                return view('login.index')->with('success','Cadastro criado com sucesso');
             }
         }
     }
@@ -104,11 +107,14 @@ class CadastroController extends Controller
             $aluno = DB::table('usuarioaluno')->where('cpf', $request->get('cpfAluno'))->first();
             $generos = DB::table('genero')->get();
 
+            if($aluno->idLogin)
+                return redirect('cadastro')->with('erro', 'CPF já Cadastrado!');
+
             return view('cadastro.finalizarCadastro',compact(('aluno'),('generos')));
         }
 
         else
-            return redirect('cadastro')->with('error', 'CPF inválido!');
+            return redirect('cadastro')->with('erro', 'CPF inválido!');
 
 
     }

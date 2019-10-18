@@ -2,10 +2,15 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Login extends Model
+class Login extends Authenticatable
 {
+    use Notifiable;
+
+    protected $guard = 'web';
+
     protected $table = 'login';
 
     public $timestamps = false;
@@ -16,7 +21,7 @@ class Login extends Model
 
     protected $fillable = [
         'email',
-        'senha',
+        'password',
         'idTipoUsuario'
     ];
 }
