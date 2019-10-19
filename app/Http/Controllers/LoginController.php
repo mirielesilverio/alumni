@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\UsuarioAluno;
 use App\Login;
+use App\Genero;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -35,10 +37,14 @@ class LoginController extends Controller
             {
                 if ($login->idTipoUsuario == 1) 
                 {
-                    $aluno = UsuarioAluno::where('idLogin',$login->id)->first();
+                    $aluno = $aluno = DB::table('usuarioaluno')->where('idLogin', $login->id)->first();
+
                     Session::put('aluno',$aluno);
 
-                    echo('aluno');
+                    $genero = Genero::find($aluno->idGenero);
+                    $login = Login::find($aluno->idLogin);
+                    
+                    return view('perfil.index')->with(compact(('aluno'),('login'),('genero'))); 
                 }
                 else
                 {
