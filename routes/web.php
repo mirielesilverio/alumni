@@ -26,8 +26,8 @@ Route::get('perfil', function () {
 //==================					ROTAS DE PERFIL 						==================
 //================================================================================================
 Route::get('perfil', 'AlunoController@index')->name('perfil.aluno');
-
-
+Route::get('perfil/editar', 'AlunoController@edit')->name('perfil.aluno.editar');
+Route::post('perfil/atualizar/{cpf}', 'AlunoController@update')->name('perfil.aluno.atualizar');
 
 //================================================================================================
 //==================					ROTAS DE CADASTRO 						==================
@@ -41,6 +41,7 @@ Route::post('cadastro/salvar', 'CadastroController@store')->name('cadastro.salva
 //================================================================================================
 Route::get('login', 'LoginController@index')->name('login');
 Route::post('logar', 'LoginController@login')->name('logar');
+Route::get('logout', 'LoginController@logout')->name('logout');
 
 
 

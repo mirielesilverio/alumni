@@ -37,13 +37,14 @@ class LoginController extends Controller
             {
                 if ($login->idTipoUsuario == 1) 
                 {
-                    $aluno = $aluno = DB::table('usuarioaluno')->where('idLogin', $login->id)->first();
+                   $aluno = DB::table('usuarioaluno')->where('idLogin', $login->id)->first();
 
                     Session::put('aluno',$aluno);
 
                     $genero = Genero::find($aluno->idGenero);
-                    $login = Login::find($aluno->idLogin);
-                    
+                    $login = Login::find($aluno->idLogin);                    
+
+
                     return view('perfil.index')->with(compact(('aluno'),('login'),('genero'))); 
                 }
                 else
@@ -53,11 +54,11 @@ class LoginController extends Controller
             }
             else
             {
-                echo 'password';
+                return view('login.index')->with('erro','Senha Incorreta!');
             }
         }
         else{
-            echo 'email';
+            return view('login.index')->with('erro','Email Incorreto!');
         }
     }
 

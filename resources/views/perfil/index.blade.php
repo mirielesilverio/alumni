@@ -17,7 +17,7 @@
                 <div class="card card-primary card-outline">
                     <div class="card-body" >
                         <div class="row justify-content-end">
-                            <a href="" class="btn btn-sm btn-outline-primary rounded-pill">Editar Perfil <i class="fas fa-pen"></i></a>
+                            <a href="{{route('perfil.aluno.editar')}}" class="btn btn-sm btn-outline-primary rounded-pill">Editar Perfil <i class="fas fa-pen"></i></a>
                         </div>
 
                         <div class="text-center">
@@ -32,7 +32,7 @@
                         <div class="row justify-content-center">
                             <div class="list-group list-group-horizontal col-md-9 mb-4 text-center" id="list-tab" role="tablist">
                                 <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-pessoais" role="tab" aria-controls="home">Dados Pessoais</a>
-                                <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Dados Acadêmicos</a>
+                                <a class="list-group-item list-group-item-action" id="list-academicos-list" data-toggle="list" href="#list-academicos" role="tab" aria-controls="academicos">Dados Acadêmicos</a>
                                 <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Dados Profissionais</a>
                             </div>
                             <div class="tab-content col-md-8 mt-5 mb-5" id="nav-tabContent">
@@ -64,7 +64,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="tab-pane fade" id="list-academicos" role="tabpanel" aria-labelledby="list-academicos-list">
+                                    
+                                </div>
                             </div>
+                        </div>
                     </div>
                   <!-- /.card-body -->
                 </div>
