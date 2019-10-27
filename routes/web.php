@@ -44,5 +44,12 @@ Route::post('logar', 'LoginController@login')->name('logar');
 Route::get('logout', 'LoginController@logout')->name('logout');
 
 
+//================================================================================================
+//==================					  ROTAS DE EVENTO 						==================
+//================================================================================================
+Route::get('login', 'LoginController@index')->name('login');
+Route::post('logar', 'LoginController@login')->name('logar');
+Route::get('logout', 'LoginController@logout')->name('logout');
+
 
 Route::get('/home', 'HomeController@index')->name('home');

@@ -9,9 +9,15 @@ use Illuminate\Support\Facades\Session;
 
 class ControllerEvento extends Controller
 {
-    public function index()
+    public function index($campus)
     {
-        return view('evento.index');
+        $eventos = DB::table('evento')
+        ->whereIn('id',DB::table('campus')
+            ->join('usuariocex','campus.id','=','usuariocex.idCampus')
+            ->select('usuariocex.id'))
+        ->get();
+
+        return view('evento.index')->with(compact('eventos'));
     }
 
     public function create()

@@ -12,6 +12,7 @@ class Evento extends Model
     
     protected $primaryKey = 'id';
 
+    protected $guarded = ['id'];
 
     protected $fillable = [
         'titulo',
