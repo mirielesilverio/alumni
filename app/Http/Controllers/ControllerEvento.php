@@ -110,7 +110,7 @@ class ControllerEvento extends Controller
 
     public function destroy($id)
     {
-       $evento = Evento::findOrFail($id);
+        $evento = Evento::findOrFail($id);
 
         try
         {

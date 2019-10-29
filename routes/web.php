@@ -47,9 +47,22 @@ Route::get('logout', 'LoginController@logout')->name('logout');
 //================================================================================================
 //==================					  ROTAS DE EVENTO 						==================
 //================================================================================================
-Route::get('login', 'LoginController@index')->name('login');
-Route::post('logar', 'LoginController@login')->name('logar');
-Route::get('logout', 'LoginController@logout')->name('logout');
+Route::get('eventos/{campus}', 'ControllerEvento@index')->name('evento.index');
+Route::get('eventos/visualizar/{id}', 'ControllerEvento@show')->name('evento.ver');
+Route::get('evento/criar', 'ControllerEvento@create')->name('noticia.criar');
+Route::post('evento/salvar', 'ControllerEvento@store')->name('noticia.salvar');
+Route::get('evento/{id}/editar', 'ControllerEvento@edit')->name('noticia.editar');
+Route::post('evento/{id}/atualizar', 'ControllerEvento@update')->name('noticia.atualizar');
 
+
+//================================================================================================
+//==================					  ROTAS DE NOTICIA 						==================
+//================================================================================================
+Route::get('noticias', 'NoticiaController@index')->name('noticia.index');
+Route::get('noticias/ler/{id}', 'NoticiaController@show')->name('noticia.ler');
+Route::get('noticia/criar', 'NoticiaController@create')->name('noticia.criar');
+Route::post('noticia/salvar', 'NoticiaController@store')->name('noticia.salvar');
+Route::get('noticia/{id}/editar', 'NoticiaController@edit')->name('noticia.editar');
+Route::post('noticia/{id}/atualizar', 'NoticiaController@update')->name('noticia.atualizar');
 
 Route::get('/home', 'HomeController@index')->name('home');

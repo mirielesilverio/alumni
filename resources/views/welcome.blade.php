@@ -31,7 +31,7 @@
       <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
         <div class="container">
           <a class="navbar-brand js-scroll-trigger" href="#page-top">Alumni IFSP</a>
-          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" id="buttonCollapse">
             Menu
             <i class="fas fa-bars"></i>
           </button>
@@ -71,8 +71,8 @@
                         </div>
                    </div>
                    <div class="col-lg-5">
-                        <div>
-                            <img src="img/ifsp-logo.png" width="45%">
+                        <div class="mt-0">
+                            <img src="img/ifsp-logo.png" width="50%">
                         </div>
                    </div>
               </div>
@@ -153,11 +153,10 @@
           </div>
           <div class="row">
             <div class="col-md-4 col-sm-6 portfolio-item">
-              <a class="portfolio-link" data-toggle="modal" href="#portfolioModal1">
+              <a class="portfolio-link" href="https://www.ifsp.edu.br/component/content/article/17-ultimas-noticias/1108-processo-seletivo-para-cursos-tecnicos-inscricoes-a-partir-do-dia-23-de-setembro" target="_blank">
                 <div class="portfolio-hover">
                   <div class="portfolio-hover-content">
-                    <i class="fab fa-readme fa-2x"></i>
-                    <h5>Continuar lendo</h5>
+                    <i class="fas fa-plus fa-3x"></i>
                   </div>
                 </div>
                 <img class="img-fluid" src="img/inscrio.jpg" alt="">
@@ -168,11 +167,10 @@
               </div>
             </div>
             <div class="col-md-4 col-sm-6 portfolio-item">
-              <a class="portfolio-link" data-toggle="modal" href="#portfolioModal2">
+              <a class="portfolio-link" href="https://ti.ifsp.edu.br/component/content/article/17-ultimas-noticias/498-e-mail-academico-e-office-365" target="_blank">
                 <div class="portfolio-hover">
                   <div class="portfolio-hover-content">
-                    <i class="fab fa-readme fa-2x"></i>
-                    <h5>Continuar lendo</h5>
+                    <i class="fas fa-plus fa-3x"></i>
                   </div>
                 </div>
                 <img class="img-fluid" src="img/mail_alunos.png" alt="">
@@ -183,11 +181,10 @@
               </div>
             </div>
             <div class="col-md-4 col-sm-6 portfolio-item">
-              <a class="portfolio-link" data-toggle="modal" href="#portfolioModal3">
+              <a class="portfolio-link" href="https://jcr.ifsp.edu.br/index.php/publicacoes" target="_blank">
                 <div class="portfolio-hover">
                   <div class="portfolio-hover-content">
-                    <i class="fab fa-readme fa-2x"></i>
-                    <h5>Continuar lendo</h5>
+                    <i class="fas fa-plus fa-3x"></i>
                   </div>
                 </div>
                 <img class="img-fluid" src="img/Aqui-se-faz-ciencia.png" alt="">
@@ -254,7 +251,7 @@
       <!-- Footer -->
     <footer class="page-footer font-small unique-color-dark">
 
-      <div style="background-color: #fed136;">
+      <div style="background-color: #f4bf0e;">
         <div class="container">
 
           <!-- Grid row-->
@@ -365,7 +362,7 @@
 
       <!-- Copyright -->
       <div class="footer-copyright text-center py-3 text-white" style="background-color: #254a6b">© 2018 Copyright:
-        <a href="https://jcr.ifsp.edu.br/"> IFSP - JCR</a>
+        <a href="https://jcr.ifsp.edu.br/"> IFSP</a>
       </div>
       <!-- Copyright -->
 
