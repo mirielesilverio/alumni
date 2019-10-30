@@ -11,17 +11,17 @@
       <title>Alumni IFSP</title>
 
       <!-- Bootstrap core CSS -->
-      <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
 
       <!-- Custom fonts for this template -->
-      <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+      <link href="{{asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
       <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
       <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
       <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
       <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
       <!-- Custom styles for this template -->
-      <link href="css/agency.css" rel="stylesheet">
+      <link href="{{asset('css/agency.css')}}" rel="stylesheet">
 
     </head>
 
@@ -47,7 +47,7 @@
                 <a class="nav-link js-scroll-trigger" href="#contact">Contato</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="#">Login</a>
+                <a class="nav-link js-scroll-trigger" href="{{route('login')}}">Login</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link js-scroll-trigger" href="#">Cadastro</a>
@@ -68,6 +68,7 @@
                         </div>
                         <div class="intro-heading">
                             <h5>Entre em contato com ex-alunos, tenha acesso a oportunidades de notícias do IFSP</h5>
+                            {{Hash::make('senha1')}}
                         </div>
                    </div>
                    <div class="col-lg-5">
@@ -181,7 +182,7 @@
               </div>
             </div>
             <div class="col-md-4 col-sm-6 portfolio-item">
-              <a class="portfolio-link" href="https://jcr.ifsp.edu.br/index.php/publicacoes" target="_blank">
+              <a class="portfolio-link" href="{{route('noticia.ler')}}" target="_blank">
                 <div class="portfolio-hover">
                   <div class="portfolio-hover-content">
                     <i class="fas fa-plus fa-3x"></i>
@@ -195,7 +196,7 @@
               </div>
             </div>
             <div class="col-sm-12 d-flex justify-content-end">
-                  <button class="btn btn-special">Mais Notícias</button>
+                  <a class="btn btn-special" href="{{route('noticia.index')}}">Mais Notícias</a>
             </div>
         </div>
       </section>
@@ -480,18 +481,18 @@
 
       
       <!-- Bootstrap core JavaScript -->
-      <script src="vendor/jquery/jquery.min.js"></script>
-      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
+      <script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
       <!-- Plugin JavaScript -->
-      <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+      <script src="{{asset('vendor/jquery-easing/jquery.easing.min.js')}}"></script>
 
       <!-- Contact form JavaScript -->
-      <script src="js/jqBootstrapValidation.js"></script>
-      <script src="js/contact_me.js"></script>
+      <script src="{{asset('js/jqBootstrapValidation.js')}}"></script>
+      <script src="{{asset('js/contact_me.js')}}"></script>
 
       <!-- Custom scripts for this template -->
-      <script src="js/agency.js"></script>
+      <script src="{{asset('js/agency.js')}}"></script>
 
     </body>
 

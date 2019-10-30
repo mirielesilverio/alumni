@@ -25,8 +25,11 @@
                                src="{{asset('dist/img/user4-128x128.jpg')}}"
                                alt="User profile picture">
                         </div>
-
-                        <h3 class="profile-username text-center mb-4">{{$aluno->nome}}</h3>
+                        @if (Session::has('aluno'))
+                            <h3 class="profile-username text-center mb-4">{{session('aluno')->nome}}</h3>
+                        @elseif(Session::has('extensao'))
+                            <h3 class="profile-username text-center mb-4">{{session('extensao')->nome}} {{session('extensao')->sobrenome}}</h3>
+                        @endif
 
 
                         <div class="row justify-content-center">
@@ -37,32 +40,34 @@
                             </div>
                             <div class="tab-content col-md-8 mt-5 mb-5" id="nav-tabContent">
                                 <div class="tab-pane fade show active" id="list-pessoais" role="tabpanel" aria-labelledby="list-pessoais-list">
-                                    <div class="row pb-2" >
-                                        <div class="col-md-6">
-                                            <b>Nome:</b>{{$aluno->nome}}
+                                    @if (Session::has('aluno'))
+                                        <div class="row pb-2" >
+                                            <div class="col-md-6">
+                                                <b>Nome:</b>{{$aluno->nome}}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <b>Data de nascimento:</b> {{$aluno->dataNasc}}
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <b>Data de nascimento:</b> {{$aluno->dataNasc}}
+                                        <hr style="border: 1px #e8eaed dashed;">
+                                        <div class="row mt-3 pb-2" >
+                                            <div class="col-md-6">
+                                                <b>RG:</b> {{$aluno->rg}}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <b>CPF:</b> {{$aluno->cpf}}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <hr style="border: 1px #e8eaed dashed;">
-                                    <div class="row mt-3 pb-2" >
-                                        <div class="col-md-6">
-                                            <b>RG:</b> {{$aluno->rg}}
+                                        <hr style="border: 1px #e8eaed dashed;">
+                                        <div class="row mt-3 pb-2" >
+                                            <div class="col-md-6">
+                                                <b>Gênero:</b> {{$genero->genero}}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <b>Email:</b> {{$login->email}}
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <b>CPF:</b> {{$aluno->cpf}}
-                                        </div>
-                                    </div>
-                                    <hr style="border: 1px #e8eaed dashed;">
-                                    <div class="row mt-3 pb-2" >
-                                        <div class="col-md-6">
-                                            <b>Gênero:</b> {{$genero->genero}}
-                                        </div>
-                                        <div class="col-md-6">
-                                            <b>Email:</b> {{$login->email}}
-                                        </div>
-                                    </div>
+                                    @endif
                                 </div>
                                 <div class="tab-pane fade" id="list-academicos" role="tabpanel" aria-labelledby="list-academicos-list">
                                     

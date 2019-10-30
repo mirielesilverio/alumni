@@ -18,6 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::get('perfil', function () {
     return view('perfil.index');
 });
@@ -59,7 +60,7 @@ Route::post('evento/{id}/atualizar', 'ControllerEvento@update')->name('noticia.a
 //==================					  ROTAS DE NOTICIA 						==================
 //================================================================================================
 Route::get('noticias', 'NoticiaController@index')->name('noticia.index');
-Route::get('noticias/ler/{id}', 'NoticiaController@show')->name('noticia.ler');
+Route::get('noticias/ler', 'NoticiaController@show')->name('noticia.ler');
 Route::get('noticia/criar', 'NoticiaController@create')->name('noticia.criar');
 Route::post('noticia/salvar', 'NoticiaController@store')->name('noticia.salvar');
 Route::get('noticia/{id}/editar', 'NoticiaController@edit')->name('noticia.editar');

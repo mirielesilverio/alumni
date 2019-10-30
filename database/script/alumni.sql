@@ -10177,7 +10177,7 @@ CREATE TABLE `interesseevento` (
 CREATE TABLE `login` (
   `id` int(11) NOT NULL,
   `email` varchar(120) NOT NULL,
-  `senha` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
   `idTipoUsuario` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -10717,7 +10717,7 @@ INSERT INTO `statusformacao` (`id`, `status`) VALUES
 CREATE TABLE `telefonealuno` (
   `id` int(11) NOT NULL,
   `cpfAluno` char(9) NOT NULL,
-  `numero` varchar(14) NOT NULL
+  `numero` varchar(20) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -10729,7 +10729,7 @@ CREATE TABLE `telefonealuno` (
 CREATE TABLE `telefonecampus` (
   `id` int(11) NOT NULL,
   `idCampus` int(11) NOT NULL,
-  `numero` varchar(14) NOT NULL
+  `numero` varchar(20) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -10762,7 +10762,7 @@ CREATE TABLE `usuarioaluno` (
   `cpf` varchar(20) NOT NULL,
   `nome` varchar(255) DEFAULT NULL,
   `dataNasc` date DEFAULT NULL,
-  `rg` varchar(11) DEFAULT NULL,
+  `rg` varchar(20) DEFAULT NULL,
   `idLogin` int(11) DEFAULT NULL,
   `idGenero` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

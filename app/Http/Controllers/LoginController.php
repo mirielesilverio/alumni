@@ -29,7 +29,7 @@ class LoginController extends Controller
         ]);
 
 
-        $login = Login::where('email',$request->email)->first();
+        $login = DB::table('login')->where('email',$request->email)->first();
 
         if($login)
         { 
@@ -46,6 +46,19 @@ class LoginController extends Controller
 
 
                     return view('perfil.index')->with(compact(('aluno'),('login'),('genero'))); 
+                }
+                elseif ($login->idTipoUsuario == 2) {
+
+                    $ext = DB::table('usuariocex')->where('idLogin', $login->id)->first();
+
+                    //echo($ext->id);
+                    Session::put('extensao',$ext);
+
+                    $genero = Genero::find($ext->idGenero);
+                    $login = Login::find($ext->idLogin);                    
+
+
+                    return view('perfil.index')->with(compact(('ext'),('login'),('genero'))); 
                 }
                 else
                 {

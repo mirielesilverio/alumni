@@ -38,7 +38,11 @@
           <!-- Notifications Dropdown Menu -->
           <li class="nav-item dropdown">
             <a class="nav-link btn btn-light" data-toggle="dropdown" href="#">
-              {{session('aluno')->nome}}
+              @if (Session::has('aluno'))
+                {{session('aluno')->nome}}
+              @elseif(Session::has('extensao'))
+                {{session('extensao')->nome}} {{session('extensao')->sobrenome}}
+              @endif
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
               <a href="{{route('logout')}}" class="dropdown-item"> <i class="fas fa-sign-out-alt mr-2"></i> Encerrar Sessão</a>
