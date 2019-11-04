@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,15 +12,17 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('dashboard/dist/css/adminlte.css')}}">
+    <link rel="stylesheet" href="{{asset('dashboard/plugins/daterangepicker/daterangepicker.css')}}">
     <!-- Google Font: Nunito -->
     <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{asset('css/padrao.css')}}">
     <!-- jQuery -->
     <script src="{{asset('dashboard/plugins/jquery/jquery.min.js')}}"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
 
+    @yield('headLk')
+  
   </head>
   <body class="hold-transition sidebar-mini layout-navbar-fixed">
     <!-- Site wrapper -->
@@ -65,10 +67,9 @@
 
         <!-- Sidebar -->
         <div class="sidebar">
-
-          <!-- Sidebar Menu -->
           <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Sidebar Menu -->
+            <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu">
               <!-- Add icons to the links using the .nav-icon class
                    with font-awesome or any other icon font library -->
               <li class="nav-item">
@@ -84,7 +85,39 @@
                   <p>Perfil <i class="right fas fa-angle-right"></i></p>
                 </a>
               </li> 
-
+              @if(Session::has('extensao'))
+              <li class="nav-item">
+                <a href="{{route('noticia.index')}}" class="nav-link">
+                  <i class="fas fa-university mr-3"></i>
+                  <p>Campus <i class="right fas fa-angle-right"></i></p>
+                </a>
+              </li> 
+              <li class="nav-item">
+                <a href="{{route('egresso.index')}}" class="nav-link">
+                  <i class="fas fa-user-graduate mr-3"></i>
+                  <p>Egressos <i class="right fas fa-angle-right"></i></p>
+                </a>
+              </li> 
+              <li class="nav-item">
+                <a href="{{route('evento.index')}}" class="nav-link">
+                  <i class="fas fa-calendar-alt mr-3"></i>
+                  <p>Eventos <i class="right fas fa-angle-right"></i></p>
+                </a>
+              </li> 
+              <li class="nav-item">
+                <a href="{{route('noticia.index')}}" class="nav-link">
+                  <i class="fas fa-newspaper mr-3"></i>
+                  <p>Notícias <i class="right fas fa-angle-right"></i></p>
+                </a>
+              </li> 
+              @elseif(Session::has('aluno'))
+              <li class="nav-item">
+                  <a class="nav-link">
+                      <i class="fas fa-user-circle mr-3"></i>
+                      <p>Cadastros alu <i class="right fas fa-angle-right"></i></p>
+                  </a>
+              </li>
+              @endif
             </ul>
           </nav>
           <!-- /.sidebar-menu -->
@@ -109,11 +142,17 @@
 
     <!-- Bootstrap 4 -->
     <script src="{{asset('dashboard/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{asset('dashboard/dist/js/adminlte.min.js')}}"></script>
+    <script src="{{asset('dashboard/dist/js/adminlte.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
+    <script src="{{asset('dashboard/dist/js/pages/dashboard.js')}}"></script>
     <script src="{{asset('dashboard/dist/js/demo.js')}}"></script>
-
+    <script src="{{asset('dashboard/plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <script src="{{asset('dashboard/plugins/daterangepicker/moment.min.js')}}"></script>
+    <script type="text/javascript">
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
     @yield('script')
   </body>
 </html>

@@ -43,27 +43,40 @@ Route::post('cadastro/salvar', 'CadastroController@store')->name('cadastro.salva
 Route::get('login', 'LoginController@index')->name('login');
 Route::post('logar', 'LoginController@login')->name('logar');
 Route::get('logout', 'LoginController@logout')->name('logout');
-
+ 
 
 //================================================================================================
 //==================					  ROTAS DE EVENTO 						==================
 //================================================================================================
-Route::get('eventos/{campus}', 'ControllerEvento@index')->name('evento.index');
+Route::get('eventos', 'ControllerEvento@index')->name('evento.index');
 Route::get('eventos/visualizar/{id}', 'ControllerEvento@show')->name('evento.ver');
-Route::get('evento/criar', 'ControllerEvento@create')->name('noticia.criar');
-Route::post('evento/salvar', 'ControllerEvento@store')->name('noticia.salvar');
-Route::get('evento/{id}/editar', 'ControllerEvento@edit')->name('noticia.editar');
-Route::post('evento/{id}/atualizar', 'ControllerEvento@update')->name('noticia.atualizar');
+Route::get('evento/criar', 'ControllerEvento@create')->name('evento.criar');
+Route::post('evento/salvar', 'ControllerEvento@store')->name('evento.salvar');
+Route::get('evento/{id}/editar', 'ControllerEvento@edit')->name('evento.editar');
+Route::post('evento/{id}/atualizar', 'ControllerEvento@update')->name('evento.atualizar');
+Route::get('evento/{id}/deletar', 'ControllerEvento@destroy')->name('evento.deletar');
 
 
 //================================================================================================
 //==================					  ROTAS DE NOTICIA 						==================
 //================================================================================================
 Route::get('noticias', 'NoticiaController@index')->name('noticia.index');
-Route::get('noticias/ler', 'NoticiaController@show')->name('noticia.ler');
+Route::get('noticia/{id}/ler', 'NoticiaController@show')->name('noticia.ler');
 Route::get('noticia/criar', 'NoticiaController@create')->name('noticia.criar');
 Route::post('noticia/salvar', 'NoticiaController@store')->name('noticia.salvar');
 Route::get('noticia/{id}/editar', 'NoticiaController@edit')->name('noticia.editar');
+Route::get('noticia/{id}/deletar', 'NoticiaController@destroy')->name('noticia.deletar');
 Route::post('noticia/{id}/atualizar', 'NoticiaController@update')->name('noticia.atualizar');
+
+//================================================================================================
+//==================				 ROTAS DE CADASTRO ALUNO  					==================
+//================================================================================================
+Route::get('egresso', 'EgressoController@index')->name('egresso.index');
+Route::get('egresso/criar', 'EgressoController@create')->name('egresso.criar');
+Route::get('egresso/{cpf}/editar', 'EgressoController@edit')->name('egresso.editar');
+Route::post('egresso/salvar', 'EgressoController@store')->name('egresso.salvar');
+Route::post('egresso/atualizar', 'EgressoController@update')->name('egresso.atualizar');
+Route::get('egresso/{cpf}/deletar', 'EgressoController@destroy')->name('egresso.deletar');
+
 
 Route::get('/home', 'HomeController@index')->name('home');

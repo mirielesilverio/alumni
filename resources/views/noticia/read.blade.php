@@ -28,15 +28,44 @@
 
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+ <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
     <div class="container">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">Alumni IFSP</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars"></i>
       </button>
+       <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav text-uppercase ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{{ URL::previous() }}">Voltar</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
+
+  <header class="masthead mb-5">
+    <div class="container">
+      <div class="intro-text"> 
+          <div class="row">
+               <div class="col-lg-7">
+                    <div class="intro-lead-in">
+                        <h2>Notícias e Eventos</h2>
+                    </div>
+                    <div class="intro-heading">
+                        <h5>Fique atento a todas as notícias e eventos do IFSP</h5>
+                    </div>
+               </div>
+               <div class="col-lg-5">
+                    <div class="mt-0">
+                        <img src="{{asset('img/ifsp-logo.png')}}" width="50%">
+                    </div>
+               </div>
+          </div>
+      </div>
+    </div>
+  </header>
 
 <!-- ##### Blog Area Start ##### -->
     <div class="blog-area section-padding-0-80" >
@@ -50,22 +79,18 @@
                             <div class="post-thumb">
                                 <a href="#"><img src="img/bg-img/16.png" alt=""></a>
                             </div>
-                            <div class="post-data">
-                                <a href="#" class="post-catagory">CineNapne</a>
-                                <a href="#" class="post-title">
-                                    <h6>CineNapne apresenta: O óleo de Lorenzo - 25/10 Sexta-Feira</h6>
-                                </a>
-                                <div class="post-meta">
-                                    <p>Sexta-feira, 25 de outubro – Auditório do Instituto Federal de São Paulo, campus Jacareí.
-                                    Sessões: 9h20 e 19h.</p>
-                                    <p>Um drama real na vida de um pai e uma mãe que lutam para salvar a vida de seu filho. Augusto e Michaela Odone são pegos pelo destino: Lorenzo de cinco anos de idade é diagnosticado com uma rara e incurável doença, mas a persistência da família e sua fé os leva para a cura, salvando seu filho e mudando a história da medicina.</p>
-                                    <p>Venha assistir e participar do CineNapne do IFSP JCR.</p>
-                                
-                                    <p>Após o filme, uma roda de discussão sobre o tema abordado será aberta para quem se sentir a vontade de participar. </p>
-    
-
-                                    </div>
+                              <div class="post-data">
+                                <h3 class="post-catagory text-warning">{{$noticia->titulo}}</h3>
+                                @if($noticia->imagem != '')
+                                  <img class="img-fluid" src="{{ url("uploadNoticias/{$noticia->imagem}") }}">
+                                @endif
+                                <h5 class="post-title text-warning">{{$noticia->lide}}</h5>
+                                <div class="post-meta mt-5">
+                                  @php
+                                    echo($noticia->texto);
+                                  @endphp
                                 </div>
+                              </div>
                             </div>
                         </div>
 
@@ -75,8 +100,8 @@
                                 <img src="img/bg-img/32.jpg" alt="">
                             </div>
                             <div class="author-info">
-                                <a>Publicado por: Carlos Henrique</a>
-                                <p>22/09/2019 </p>
+                                <a>Publicado por: {{$noticia->nome}} {{$noticia->sobrenome}}</a>
+                                <p>{{date('d-m-Y',strtotime($noticia->data))}}</p>
                             </div>
                         </div>
   

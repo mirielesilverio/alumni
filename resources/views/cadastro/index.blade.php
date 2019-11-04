@@ -54,7 +54,7 @@
 						          		<div class="input-group-text border-0 bg-transparent"><i class="far fa-id-card"></i></div>
 						        	</div>
 						        	<input type="text" class="form-control border-0 rounded-pill" id="cpfAluno" name="cpfAluno" placeholder="Digite seu CPF" required="" onkeypress="$(this).mask('000.000.000-00');">
-						      	</div>
+						      	</div> 
 						    </div>
 						    <button class="btn col-8 offset-2 btn-alumni rounded-pill mt-4 mb-2">Prosseguir <i class="fas fa-chevron-right ml-2"></i></button>
 						</form>

@@ -50,7 +50,7 @@
                 <a class="nav-link js-scroll-trigger" href="{{route('login')}}">Login</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="#">Cadastro</a>
+                <a class="nav-link js-scroll-trigger" href="{{route('cadastro')}}">Cadastro</a>
               </li>
             </ul>
           </div>
@@ -68,7 +68,7 @@
                         </div>
                         <div class="intro-heading">
                             <h5>Entre em contato com ex-alunos, tenha acesso a oportunidades de notícias do IFSP</h5>
-                            {{Hash::make('senha1')}}
+                            <!--<p>{{Hash::make('123')}}</p>-->
                         </div>
                    </div>
                    <div class="col-lg-5">

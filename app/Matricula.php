@@ -12,9 +12,9 @@ class Matricula extends Model
     
     protected $primaryKey = 'prontuario';
 
-    protected $guarded = ['prontuario'];
 
     protected $fillable = [
+        'prontuario',
         'idCurso',
         'idCampus',
         'idStatusFormacao',
