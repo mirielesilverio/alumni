@@ -18,6 +18,7 @@ class NoticiaController extends Controller
                     ->whereIn('idUsuarioCex',DB::table('usuariocex')
                     ->where('idCampus',Session::get('extensao')->idCampus)
                     ->select('id'))
+                    ->orderBy('id','desc')
                     ->get();
 
             return view('noticia.noticia-listar')->with(compact('noticias'));
@@ -83,12 +84,15 @@ class NoticiaController extends Controller
 
     public function show($id)
     {
-        $noticia = DB::table('noticia')
-        ->where('noticia.id',$id)
-        ->join('usuariocex','noticia.idUsuarioCex','=','usuariocex.id')
-        ->select('usuariocex.nome','usuariocex.sobrenome','noticia.*')
-        ->first();
-        return view('noticia.read')->with(compact('noticia'));
+        if(Session::has('extensao'))
+        {
+            $noticia = DB::table('noticia')
+            ->where('noticia.id',$id)
+            ->join('usuariocex','noticia.idUsuarioCex','=','usuariocex.id')
+            ->select('usuariocex.nome','usuariocex.sobrenome','noticia.*')
+            ->first();
+            return view('noticia.readExt')->with(compact('noticia'));
+        }
     }
     /*public function show($id)
     {

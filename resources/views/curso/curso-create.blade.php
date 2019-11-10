@@ -1,40 +1,65 @@
 @extends('base')
-@section('content')
 
-<div class="p-4">
-    <div class="card">
-
-        <div class="mt-2 ml-4 mr-4 mb-4">
-                <div class="d-flex justify-content-center mt-3">
-                        <div>
-                            <h3>Cadastre um novo usuário extensão</h3>
+@section('main')
+<div class="container-fluid mt--4">
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header border-0 row">
+                    @if(session()->get('success'))
+                        <div class="alert alert-dismissible alert-success col-12">
+                          {{ session()->get('success') }}  
                         </div>
+                    @endif
+                    @if(session()->get('erro'))
+                        <div class="alert alert-dismissible alert-danger col-12">
+                          {{ session()->get('erro') }}  
+                        </div>
+                    @endif
+                    @if ($errors->any())
+                        <div class="alert alert-dismissible alert-danger col-12">
+                          <ul>
+                              @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                              @endforeach
+                          </ul>
+                        </div>
+                    @endif
+                    <div>
+                        <h3>Cadastre um Curso</h3>
+                    </div>
                 </div>
+                <div class="card-body">
+                    <form class="m-3" action="{{route('curso.salvar')}}" method="POST">
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                        <div class="form-row ml-4 mr-4 mt-3 mb-4">
+                            <div class="form-row">
+                                <div class="col-md-9 mb-3">
+                                    <label for="curso">Curso</label>
+                                    <select class="form-control" name="curso" id="curso">
+                                        @foreach($cursos as $curso)
+                                            <option value="{{$curso->id}}">{{$curso->nome}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mt-2">
+                                    <label></label>
+                                    <input type="submit" value="Salvar Curso" class="btn btn-block btn-success" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-
-        <form class="needs-validation m-3" novalidate>
-
-                <div class="form-row ml-4 mr-4 mt-3 mb-4">
-
-                    <div class="col-sm-6 mb-3">
-                        <label for="validationTooltip01">Nome</label>
-                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" required>
-                    </div>
-
-                    <div class="col-sm-6 mb-3">
-                            <label for="">Nível</label>
-                            <select class="form-control">		
-                            </select>
-                    </div>
-
-                    <div class="col-sm-12 d-flex justify-content-around mt-4">
-                            <button  class="btn btn-default">Adicionar</button>
-                            <button  class="btn btn-default" id="btnClean">Limpar</button>
-                    </div>
-
-                </div>
-        </form>
     </div>
 </div>
+
+
+
+
+
+
 
 @endsection

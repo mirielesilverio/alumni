@@ -5,38 +5,39 @@
     <script>tinymce.init({ selector:'textarea' });</script>
 @endsection
 
-@section('content')
-
-    <div class="pt-2">
-        <div class="m-4 card">
-            <div class="col-12 pt-2">
-                @if(session()->get('success'))
-                    <div class="alert alert-dismissible alert-success">
-                      {{ session()->get('success') }}  
-                    </div>
-                @endif
-                @if(session()->get('erro'))
-                    <div class="alert alert-dismissible alert-danger">
-                      {{ session()->get('erro') }}  
-                    </div>
-                @endif
-                @if ($errors->any())
-                    <div class="alert alert-dismissible alert-danger">
-                      <ul>
-                          @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                          @endforeach
-                      </ul>
-                    </div>
-                @endif
-            </div>
-            <div class="m-4">
-                <div class="d-flex justify-content-center">
-                    <div>
-                        <h3>Cadastre uma Notícia</h3>
-                    </div>
+@section('main')
+<div class="container-fluid mt--4">
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header border-0 row">
+                    @if(session()->get('success'))
+                        <div class="alert alert-dismissible alert-success col-12">
+                          {{ session()->get('success') }}  
+                        </div>
+                    @endif
+                    @if(session()->get('erro'))
+                        <div class="alert alert-dismissible alert-danger col-12">
+                          {{ session()->get('erro') }}  
+                        </div>
+                    @endif
+                    @if ($errors->any())
+                        <div class="alert alert-dismissible alert-danger col-12">
+                          <ul>
+                              @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                              @endforeach
+                          </ul>
+                        </div>
+                    @endif
+                    @if(isset($noticia))
+                        <h3>Editar Notícia</h3>
+                    @else
+                        <h3>Cadastrar Notícia</h3>
+                    @endif
                 </div>
-                <div class="m-3">
+                <div class="card-body">
                     @if(isset($noticia))
                         <form action="{{route('noticia.atualizar',$noticia->id)}}" method="POST" enctype="multipart/form-data">
                     @else
@@ -47,9 +48,9 @@
                             <div class="col-12 mb-3 form-group">
                                 <label for="titulo">Título</label>
                                 @if(isset($noticia))
-                                    <input type="text" class="form-control" id="titulo" name="titulo" value="{{$noticia->titulo}}" />
+                                    <input type="text" class="form-control form-control-alternative" id="titulo" name="titulo" value="{{$noticia->titulo}}" />
                                 @else
-                                    <input type="text" class="form-control" id="titulo" name="titulo"/>
+                                    <input type="text" class="form-control form-control-alternative" id="titulo" name="titulo"/>
                                 @endif
                             </div>
                         </div>
@@ -57,9 +58,9 @@
                             <div class="col-12 mb-3 form-group">
                                 <label for="lide">Lide</label>
                                 @if(isset($noticia))
-                                    <input type="text" class="form-control" id="lide" name="lide" value="{{$noticia->lide}}" />
+                                    <input type="text" class="form-control form-control-alternative" id="lide" name="lide" value="{{$noticia->lide}}" />
                                 @else
-                                    <input type="text" class="form-control" id="lide" name="lide"/>
+                                    <input type="text" class="form-control form-control-alternative" id="lide" name="lide"/>
                                 @endif
                             </div>
                         </div>
@@ -68,27 +69,27 @@
                                 @if(!isset($noticia))
                                     <label for="image" class="btn btn-info">Anexar Imagem <i class="fas fa-image ml-2"></i> 
                                     <span id='file-name'></span>
-                                    <input type="file" class="form-control" id="image" name="image"/>
+                                    <input type="file" class="form-control d-none" id="image" name="image"/>
                                 @endif
                                 </label>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-12 mb-3">
-                                <textarea cols="70" rows="10" class="form-control" id="desc" name="desc">
+                                <textarea cols="70" rows="10" class="form-control form-control-alternative" id="desc" name="desc">
                                     @if(isset($noticia))
                                         {{$noticia->texto}}
                                     @endif
                                 </textarea>
                             </div>
                         </div>
-                        <input type="submit" value="Salvar Notícia" class="btn btn-block btn-success col-md-2 offset-md-10" />
+                        <input type="submit" value="Salvar Notícia" class="btn col-4 btn-success float-right" />
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
+</div>
 @endsection
 
 @section('script')

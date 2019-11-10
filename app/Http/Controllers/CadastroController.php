@@ -63,7 +63,7 @@ class CadastroController extends Controller
 
             if (DB::table('login')->where('email', $request->get('email'))->exists()) 
             {
-                $aluno = DB::table('usuarioaluno')->where('cpf', $request->get('cpfAluno'))->first();
+                $aluno = DB::table('usuarioaluno')->where('cpf', $request->get('cpf'))->first();
                 $erro = 'Email já Cadastrado';
                 return view('cadastro.finalizarCadastro', compact(('aluno'),('generos'),('erro')));
             }
@@ -116,51 +116,5 @@ class CadastroController extends Controller
         else
             return redirect('cadastro')->with('erro', 'CPF inválido!');
 
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

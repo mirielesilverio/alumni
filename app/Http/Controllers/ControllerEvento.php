@@ -90,7 +90,26 @@ class ControllerEvento extends Controller
 
     public function show($id)
     {
-        $evento = Evento::find($id);
+        $evento = DB::table('evento')
+        ->where('evento.id',$id)
+        ->join('usuariocex','evento.idUsuarioCex','=','usuariocex.id')
+        ->select('evento.*','usuariocex.nome','usuariocex.sobrenome')
+        ->first();
+
+
+        if (DB::table('evento')->where('id',$id)->join('interesseevento','interesseevento.idEvento','=','evento.id')->exists())
+        {
+            $interesse = DB::table('evento')
+            ->where('id',$id)
+            ->join('interesseevento','interesseevento.idEvento','=','evento.id')
+            ->get();
+
+            $interesse = $interesse->count();
+
+            return view('evento.show')->with(compact('evento'),('interesse'));
+        }
+        
+
         return view('evento.show')->with(compact('evento'));
     }
 

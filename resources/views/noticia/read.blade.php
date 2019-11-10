@@ -81,10 +81,10 @@
                             </div>
                               <div class="post-data">
                                 <h3 class="post-catagory text-warning">{{$noticia->titulo}}</h3>
+                                <h5 class="post-title text-warning mb-3">{{$noticia->lide}}</h5>
                                 @if($noticia->imagem != '')
-                                  <img class="img-fluid" src="{{ url("uploadNoticias/{$noticia->imagem}") }}">
+                                  <img class="img-fluid" src="{{ url("storage/uploadNoticias/{$noticia->imagem}") }}">
                                 @endif
-                                <h5 class="post-title text-warning">{{$noticia->lide}}</h5>
                                 <div class="post-meta mt-5">
                                   @php
                                     echo($noticia->texto);

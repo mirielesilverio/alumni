@@ -78,5 +78,12 @@ Route::post('egresso/salvar', 'EgressoController@store')->name('egresso.salvar')
 Route::post('egresso/atualizar', 'EgressoController@update')->name('egresso.atualizar');
 Route::get('egresso/{cpf}/deletar', 'EgressoController@destroy')->name('egresso.deletar');
 
+//================================================================================================
+//==================					 ROTAS DE CAMPUS  						==================
+//================================================================================================
+Route::get('curso', 'CursosController@index')->name('curso.index');
+Route::get('curso/criar', 'CursosController@create')->name('curso.criar');
+Route::get('curso/deletar/{id}', 'CursosController@destroy')->name('curso.apagar');
+Route::post('curso/salvar', 'CursosController@store')->name('curso.salvar');
 
-Route::get('/home', 'HomeController@index')->name('home');
+

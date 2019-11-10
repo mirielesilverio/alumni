@@ -20,11 +20,11 @@
                             <a href="{{route('perfil.aluno.editar')}}" class="btn btn-sm btn-outline-primary rounded-pill">Editar Perfil <i class="fas fa-pen"></i></a>
                         </div>
 
-                        <div class="text-center">
+                        <!--<div class="text-center">
                             <img class="profile-user-img img-fluid img-circle"
                                src="{{asset('dist/img/user4-128x128.jpg')}}"
                                alt="User profile picture">
-                        </div>
+                        </div>-->
                         @if (Session::has('aluno'))
                             <h3 class="profile-username text-center mb-4">{{session('aluno')->nome}}</h3>
                         @elseif(Session::has('extensao'))

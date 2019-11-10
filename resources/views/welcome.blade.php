@@ -11,10 +11,10 @@
       <title>Alumni IFSP</title>
 
       <!-- Bootstrap core CSS -->
-      <link href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+      <link href="{{asset('bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
 
       <!-- Custom fonts for this template -->
-      <link href="{{asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+      <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
       <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
       <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
       <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -182,7 +182,7 @@
               </div>
             </div>
             <div class="col-md-4 col-sm-6 portfolio-item">
-              <a class="portfolio-link" href="{{route('noticia.ler')}}" target="_blank">
+              <a class="portfolio-link" href="" target="_blank">
                 <div class="portfolio-hover">
                   <div class="portfolio-hover-content">
                     <i class="fas fa-plus fa-3x"></i>
@@ -481,11 +481,11 @@
 
       
       <!-- Bootstrap core JavaScript -->
-      <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
-      <script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+      <script src="{{ asset('js/plugins/jquery/dist/jquery.min.js') }}"></script>
+      <script src="{{asset('bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
       <!-- Plugin JavaScript -->
-      <script src="{{asset('vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+      <script src="{{asset('jquery-easing/jquery.easing.min.js')}}"></script>
 
       <!-- Contact form JavaScript -->
       <script src="{{asset('js/jqBootstrapValidation.js')}}"></script>
