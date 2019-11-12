@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 27-Out-2019 às 18:06
+-- Generation Time: 12-Nov-2019 às 04:13
 -- Versão do servidor: 10.1.38-MariaDB
 -- versão do PHP: 7.3.2
 
@@ -21,6 +21,20 @@ SET time_zone = "+00:00";
 --
 -- Database: `alumni`
 --
+CREATE DATABASE IF NOT EXISTS `alumni` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `alumni`;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `alternativa`
+--
+
+CREATE TABLE `alternativa` (
+  `id` int(11) NOT NULL,
+  `alternativa` varchar(255) NOT NULL,
+  `idPergunta` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -10117,6 +10131,14 @@ CREATE TABLE `evento` (
   `idUsuarioCex` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Extraindo dados da tabela `evento`
+--
+
+INSERT INTO `evento` (`id`, `titulo`, `descricao`, `imagem`, `data`, `horarioIn`, `horarioFin`, `local`, `qtdVagas`, `idUsuarioCex`) VALUES
+(1, 'teste edição', '<p>teste</p>', NULL, '2019-12-31', '08:11:00', '11:11:00', 'Auditório', 100, 1),
+(3, 'teste imagem', '<p>teste&nbsp;</p>', '12019_11_10_13_11_49.jpeg', '2019-12-31', '10:11:00', '11:11:00', 'Auditório', 10, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -10180,6 +10202,13 @@ CREATE TABLE `login` (
   `password` varchar(100) NOT NULL,
   `idTipoUsuario` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `login`
+--
+
+INSERT INTO `login` (`id`, `email`, `password`, `idTipoUsuario`) VALUES
+(1, 'marcia_inacio@ifsp.edu.br', '$2y$10$JiFSaRGFdIMxcUBf/qKn/./TzBNud3Y6Gh8uJgcc8x23moSzQWx3S', 2);
 
 -- --------------------------------------------------------
 
@@ -10669,9 +10698,9 @@ CREATE TABLE `nivel` (
 --
 
 INSERT INTO `nivel` (`id`, `nivel`) VALUES
-(1, 'Gradua‡Æo'),
-(2, 'M‚dio'),
-(3, 'P¢s-gradua‡Æo'),
+(1, 'Graduação'),
+(2, 'Médio'),
+(3, 'Pós-Graduação'),
 (4, 'Fundamental');
 
 -- --------------------------------------------------------
@@ -10689,6 +10718,49 @@ CREATE TABLE `noticia` (
   `data` date DEFAULT NULL,
   `idUsuarioCex` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `noticia`
+--
+
+INSERT INTO `noticia` (`id`, `titulo`, `lide`, `texto`, `imagem`, `data`, `idUsuarioCex`) VALUES
+(3, 'teste', 'teste', '<p style=\"text-align: justify;\">teste teste teste</p>', '12019_11_10_00_11_08.png', '2019-11-10', 1),
+(4, 'Palestra: Empreenda em tecnologia antes de sair da faculdade', NULL, '<p style=\"list-style: none; vertical-align: baseline; margin: 0px 0px 10px; padding: 0px; line-height: 1.75em; font-family: open_sansregular, \'Open Sans\', Arial, Helvetica, sans-serif; text-align: justify;\">\"Na pr&oacute;xima sexta (14/06), teremos no campus a Roda de Conversa com um ex-aluno meu, empreendedor na &aacute;rea de tecnologia, CEO da RM07, Rodrigo Machado.</p>\r\n<p style=\"list-style: none; vertical-align: baseline; margin: 0px 0px 10px; padding: 0px; line-height: 1.75em; font-family: open_sansregular, \'Open Sans\', Arial, Helvetica, sans-serif; text-align: justify;\">O tema ser&aacute;: \"Empreenda em tecnologia antes de sair da faculdade\"</p>\r\n<p style=\"list-style: none; vertical-align: baseline; margin: 0px 0px 10px; padding: 0px; line-height: 1.75em; font-family: open_sansregular, \'Open Sans\', Arial, Helvetica, sans-serif; text-align: justify;\">Ele vai falar sobre a experi&ecirc;ncia dele acumulada nos &uacute;ltimos 10 anos empreendendo na cria&ccedil;&atilde;o de sites, aplicativos e sistemas.&nbsp;Este assunto &eacute; aderente ao atual momento de disrrup&ccedil;&atilde;o tecnol&oacute;gica e incentivo ao empreendedorismo.&nbsp;Ap&oacute;s este primeiro momento, o palestrante responder&aacute; a d&uacute;vidas do p&uacute;blico relacionadas ao interesse de empreender na &aacute;rea de tecnologia.</p>\r\n<p style=\"list-style: none; vertical-align: baseline; margin: 0px 0px 10px; padding: 0px; line-height: 1.75em; font-family: open_sansregular, \'Open Sans\', Arial, Helvetica, sans-serif; text-align: justify;\">A Roda de Conversa ser&aacute; na pr&oacute;xima sexta-feira (14/06), no Audit&oacute;rio, &agrave;s 10:00.</p>\r\n<p style=\"list-style: none; vertical-align: baseline; margin: 0px 0px 10px; padding: 0px; line-height: 1.75em; font-family: open_sansregular, \'Open Sans\', Arial, Helvetica, sans-serif; text-align: justify;\">Se algum professor que ministra aula na sexta pela manh&atilde; quiser levar a turma, todos ser&atilde;o bem-vindos! Professores, alunos ou funcion&aacute;rios tamb&eacute;m s&atilde;o bem-vindos para assistirem.</p>\r\n<p style=\"list-style: none; vertical-align: baseline; margin: 0px 0px 10px; padding: 0px; line-height: 1.75em; font-family: open_sansregular, \'Open Sans\', Arial, Helvetica, sans-serif; text-align: justify;\">Prof. Murilo Dantas\"</p>', '12019_11_10_00_11_22.png', '2019-11-10', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `pergunta`
+--
+
+CREATE TABLE `pergunta` (
+  `id` int(11) NOT NULL,
+  `pergunta` text NOT NULL,
+  `tipo` char(1) NOT NULL,
+  `idQuestionario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `questionario`
+--
+
+CREATE TABLE `questionario` (
+  `id` int(11) NOT NULL,
+  `titulo` varchar(255) NOT NULL,
+  `descricao` text NOT NULL,
+  `idUsuarioCex` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `questionario`
+--
+
+INSERT INTO `questionario` (`id`, `titulo`, `descricao`, `idUsuarioCex`) VALUES
+(1, 'teste', 'Primeiro teste de  questionário', 1),
+(2, 'teste', 'teste Questionário 2', 1),
+(3, 'teste', 'teste', 1);
 
 -- --------------------------------------------------------
 
@@ -11236,8 +11308,22 @@ CREATE TABLE `usuariocex` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Extraindo dados da tabela `usuariocex`
+--
+
+INSERT INTO `usuariocex` (`id`, `nome`, `sobrenome`, `idCampus`, `idLogin`, `foto`, `idGenero`) VALUES
+(1, 'Márcia', 'Ap. Inacio Silveira', 1, 1, NULL, 2);
+
+--
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `alternativa`
+--
+ALTER TABLE `alternativa`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idPergunta` (`idPergunta`);
 
 --
 -- Indexes for table `campus`
@@ -11350,6 +11436,20 @@ ALTER TABLE `noticia`
   ADD KEY `idUsuarioCex` (`idUsuarioCex`);
 
 --
+-- Indexes for table `pergunta`
+--
+ALTER TABLE `pergunta`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idQuestionario` (`idQuestionario`);
+
+--
+-- Indexes for table `questionario`
+--
+ALTER TABLE `questionario`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idUsuarioCex` (`idUsuarioCex`);
+
+--
 -- Indexes for table `statusformacao`
 --
 ALTER TABLE `statusformacao`
@@ -11400,6 +11500,12 @@ ALTER TABLE `usuariocex`
 --
 
 --
+-- AUTO_INCREMENT for table `alternativa`
+--
+ALTER TABLE `alternativa`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `campus`
 --
 ALTER TABLE `campus`
@@ -11427,7 +11533,7 @@ ALTER TABLE `estado`
 -- AUTO_INCREMENT for table `evento`
 --
 ALTER TABLE `evento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `genero`
@@ -11445,7 +11551,7 @@ ALTER TABLE `instituicao`
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `nivel`
@@ -11457,7 +11563,19 @@ ALTER TABLE `nivel`
 -- AUTO_INCREMENT for table `noticia`
 --
 ALTER TABLE `noticia`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `pergunta`
+--
+ALTER TABLE `pergunta`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `questionario`
+--
+ALTER TABLE `questionario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `statusformacao`
@@ -11487,11 +11605,17 @@ ALTER TABLE `tipousuario`
 -- AUTO_INCREMENT for table `usuariocex`
 --
 ALTER TABLE `usuariocex`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Limitadores para a tabela `alternativa`
+--
+ALTER TABLE `alternativa`
+  ADD CONSTRAINT `alternativa_ibfk_1` FOREIGN KEY (`idPergunta`) REFERENCES `pergunta` (`id`);
 
 --
 -- Limitadores para a tabela `evento`
@@ -11511,6 +11635,18 @@ ALTER TABLE `interesseevento`
 --
 ALTER TABLE `noticia`
   ADD CONSTRAINT `noticia_ibfk_1` FOREIGN KEY (`idUsuarioCex`) REFERENCES `usuariocex` (`id`);
+
+--
+-- Limitadores para a tabela `pergunta`
+--
+ALTER TABLE `pergunta`
+  ADD CONSTRAINT `pergunta_ibfk_1` FOREIGN KEY (`idQuestionario`) REFERENCES `questionario` (`id`);
+
+--
+-- Limitadores para a tabela `questionario`
+--
+ALTER TABLE `questionario`
+  ADD CONSTRAINT `questionario_ibfk_1` FOREIGN KEY (`idUsuarioCex`) REFERENCES `usuariocex` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

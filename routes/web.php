@@ -86,4 +86,15 @@ Route::get('curso/criar', 'CursosController@create')->name('curso.criar');
 Route::get('curso/deletar/{id}', 'CursosController@destroy')->name('curso.apagar');
 Route::post('curso/salvar', 'CursosController@store')->name('curso.salvar');
 
+//================================================================================================
+//==================					 ROTAS DE QUESTIONARIO  				==================
+//================================================================================================
+Route::get('questionario', 'QuestionarioController@index')->name('questionario.index');
+Route::get('questionario/criar', 'QuestionarioController@create')->name('questionario.criar');
+Route::post('questionario/salvar', 'QuestionarioController@store')->name('questionario.salvar');
+Route::get('questionario/{id}/editar', 'QuestionarioController@edit')->name('questionario.editar');
+
+Route::get('questionario/pergunta/criar', 'PerguntaController@create')->name('pergunta.criar');
+
+
 
