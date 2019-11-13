@@ -17,14 +17,47 @@ class PerguntaController extends Controller
         }
     }
 
-    public function create()
+    public function create($id)
     {
-        return view('questionario.pergunta-create');
+        $questionario = Questionario::find($id);
+        return view('questionario.pergunta-create')->with(compact('questionario'));
     }
     
     public function store(Request $request)
     {
-        
+        $i = 0;
+        if($alternativas = $request->get('alternativa'))
+        {
+            if ($cont = $request->get('idAlt')) 
+            {
+                foreach ($alternativas as $alternativa) 
+                {
+                    echo($alternativa.'<br>');
+                    echo($cont[$i].'<br>');
+                    if ($opcoes = $request->get('opcaoInput'.$cont[$i])) 
+                    {
+                        foreach ($opcoes as $opcao) 
+                        {
+                            echo($opcao.'<br>');
+                        }
+                    }
+                    else
+                        echo('Erro');
+                    $i++;
+
+                    echo('<hr style="border-style: dashed;">');
+                    
+                }
+            }
+        }
+        if ($dissertativas = $request->get('dissertativa')) 
+        {
+            foreach ($dissertativas as $dissertativa) 
+            {
+                echo($dissertativa.'<br>');
+                echo('<hr style="border-style: dashed;">');
+            }
+        }
     }
 
     public function show($id)

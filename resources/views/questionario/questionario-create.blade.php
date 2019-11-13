@@ -28,16 +28,6 @@
                     @endif
                     <h3>Cadastrar Questionário</h3>
                 </div>
-                <div class="row justify-content-center">   
-                    <nav class="nav nav-pills flex-column flex-sm-row col-10">
-                        <a class="flex-sm-fill text-sm-center nav-link active mr-2" href="#">Questionário</a>
-                        @if(isset($questionario))
-                            <a class="flex-sm-fill text-sm-center nav-link" href="{{route('pergunta.criar')}}">Perguntas</a>
-                        @else
-                            <a class="flex-sm-fill text-sm-center nav-link disabled" data-toggle="tooltip" data-placement="top" title="Cadastre um questionário para habilitar">Perguntas</a>
-                        @endif
-                    </nav>
-                </div>
                 <div class="card-body">
                     <form method="POST" action="{{route('questionario.salvar')}}">
                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">

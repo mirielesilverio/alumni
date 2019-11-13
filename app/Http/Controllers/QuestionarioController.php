@@ -50,7 +50,7 @@ class QuestionarioController extends Controller
         {
             $questionario->save();
 
-            return redirect()->route('questionario.editar', $questionario->id)->with('success', 'Questionario salvo com sucesso!');
+            return redirect()->route('pergunta.criar', $questionario->id)->with('success', 'Questionario salvo com sucesso!');
 
         } 
         catch (Exception $e) 
