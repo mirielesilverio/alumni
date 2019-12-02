@@ -16,6 +16,11 @@
                           {{ session()->get('success') }}  
                         </div>
                     @endif
+                    @if(session()->get('warning'))
+                        <div class="alert alert-dismissible alert-warning col-12">
+                          {{ session()->get('warning') }}  
+                        </div>
+                    @endif
                     @if(session()->get('erro'))
                         <div class="alert alert-dismissible alert-danger col-12">
                           {{ session()->get('erro') }}  
@@ -35,7 +40,7 @@
                 <div class="card-body pl-md-6 pr-md-6">
                     <h1 class="mb-3">{{$questionario->titulo}}</h1>
                     <p class="mb-4 text-justify">{{$questionario->descricao}}</p>
-                    <form method="POST" action="{{route('pergunta.salvar')}}">
+                    <form method="POST" action="{{route('pergunta.salvar',$questionario->id)}}">
                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                         <div id="formulario">
                             
@@ -63,14 +68,14 @@
         
         $('#add-campo').click(function () {
             
-            $('#formulario').append('<hr style="border-style: dashed;"><div class="form-group form-row campo' + cont + '" id=""><input type="text" name="dissertativa[]" placeholder="Nova pergunta" class="form-control form-control-alternative col-10 ml-2"> <button type="button" id="' + cont + '" class="btn btn-danger ml-2 btn-apagar"> <i class="fas fa-minus"></i> </button></div>');
+            $('#formulario').append('<hr style="border-style: dashed;"><div class="form-group form-row campo' + cont + '" id=""><input type="text" name="dissertativa[]" placeholder="Nova pergunta" class="form-control form-control-alternative col-10 ml-2" required=""> <button type="button" id="' + cont + '" class="btn btn-danger ml-2 btn-apagar"> <i class="fas fa-minus"></i> </button></div>');
 
             cont++;
         });
 
         $('#add-alternativa').click(function () {
             
-            $('#formulario').append('<hr style="border-style: dashed;"><div class="campo' + cont + '" id="campo' + cont + '"><div class="form-group form-row"><input type="text" name="alternativa[]" placeholder="Nova pergunta" class="form-control form-control-alternative col-10 ml-2">  <input type="hidden"  name="idAlt[]" value="' + cont + '"><button type="button" id="' + cont + '" class="btn btn-danger ml-2 btn-apagar"> <i class="fas fa-minus"></i> </button></div><a class="text-info add-opcao" id="' + cont + '">Adicionar alternativa <i class="fas fa-plus"></i></a></div>');
+            $('#formulario').append('<hr style="border-style: dashed;"><div class="campo' + cont + '" id="campo' + cont + '"><div class="form-group form-row"><input type="text" name="alternativa[]" placeholder="Nova pergunta" class="form-control form-control-alternative col-10 ml-2">  <input type="hidden"  name="idAlt[]" value="' + cont + '" required=""><button type="button" id="' + cont + '" class="btn btn-danger ml-2 btn-apagar"> <i class="fas fa-minus"></i> </button></div><a class="text-info add-opcao" id="' + cont + '">Adicionar alternativa <i class="fas fa-plus"></i></a></div>');
 
             cont++;
         });
@@ -93,7 +98,7 @@
 
         $('form').on('click', '.add-opcao', function () {
             var button_id = $(this).attr("id");
-            $('#campo' + button_id + '').append('<div class="form-row mt-3 campo' + button_id + '" id="divOp' + alt + '"><div class=" custom-control custom-radio mb-3">  <input name="radio' + button_id + '" class="custom-control-input" id="opcao' + alt + '" type="radio" disabled>  <label class="custom-control-label" for="opcao' + alt + '"> </label> </div> <input type="text"  name="opcaoInput' + button_id + '[]" placeholder="Digite a nova opção" class="form-control col-10 ml-2 form-control-alternative "> <button type="button" id="' + alt + '" class="btn btn-danger ml-2 btn-apagar-alt"> <i class="fas fa-minus"></i> </button> </div>');
+            $('#campo' + button_id + '').append('<div class="form-row mt-3 campo' + button_id + '" id="divOp' + alt + '"><div class=" custom-control custom-radio mb-3">  <input name="radio' + button_id + '" class="custom-control-input" id="opcao' + alt + '" type="radio" disabled>  <label class="custom-control-label" for="opcao' + alt + '"> </label> </div> <input type="text"  name="opcaoInput' + button_id + '[]" placeholder="Digite a nova opção" class="form-control col-10 ml-2 form-control-alternative " required=""> <button type="button" id="' + alt + '" class="btn btn-danger ml-2 btn-apagar-alt"> <i class="fas fa-minus"></i> </button> </div>');
 
             alt++;
         });

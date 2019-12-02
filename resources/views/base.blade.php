@@ -128,6 +128,11 @@
                 <i class="fas fa-newspaper"></i> Notícias
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link " href="{{route('questionario.index')}}">
+                <i class="fab fa-wpforms"></i> Questionários
+              </a>
+            </li>
           </ul>
         @elseif(Session::has('aluno'))
 

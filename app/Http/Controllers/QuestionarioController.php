@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Questionario;
+use App\Pergunta;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
@@ -62,7 +63,25 @@ class QuestionarioController extends Controller
 
     public function show($id)
     {
-        
+        if(Session::has('extensao'))
+        {
+
+            $questionario = DB::table('questionario')
+                    ->where('id',$id)
+                    ->first();
+
+            $perguntas = Pergunta::where('idQuestionario', $id)->get();
+
+            return view('questionario.questionario-responder')->with(compact(('questionario'),('perguntas')));
+        }
+        else
+        {
+            $questionario = DB::table('questionario')
+                    ->where('id',$id)
+                    ->first();
+
+            return view('questionario.questionario-responder')->with(compact('questionario'));
+        }
     }
 
     public function edit($id)

@@ -95,7 +95,9 @@ Route::post('questionario/salvar', 'QuestionarioController@store')->name('questi
 Route::get('questionario/{id}/editar', 'QuestionarioController@edit')->name('questionario.editar');
 
 Route::get('questionario/{id}/pergunta/criar', 'PerguntaController@create')->name('pergunta.criar');
-Route::post('questionario/pergunta/salvar', 'PerguntaController@store')->name('pergunta.salvar');
+Route::post('questionario/{id}/pergunta/salvar', 'PerguntaController@store')->name('pergunta.salvar');
 
+
+Route::get('questionario/{id}/responder', 'QuestionarioController@show')->name('questionario.ver');
 
 
