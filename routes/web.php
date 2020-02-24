@@ -62,11 +62,10 @@ Route::post('noticia/{id}/atualizar', 'NoticiaController@update')->name('noticia
 //==================				 ROTAS DE CADASTRO ALUNO  					==================
 //================================================================================================
 Route::get('egresso', 'EgressoController@index')->name('egresso.index');
-Route::get('egresso/criar', 'EgressoController@create')->name('egresso.criar');
-Route::get('egresso/{cpf}/editar', 'EgressoController@edit')->name('egresso.editar');
 Route::post('egresso/salvar', 'EgressoController@store')->name('egresso.salvar');
-Route::post('egresso/atualizar', 'EgressoController@update')->name('egresso.atualizar');
-Route::get('egresso/{cpf}/deletar', 'EgressoController@destroy')->name('egresso.deletar');
+Route::post('egresso/pesquisar', 'EgressoController@pesquisa')->name('egresso.pesquisar');
+Route::get('egresso/filtrarC/{curso}', 'EgressoController@filtroCurso')->name('egresso.filtroC');
+Route::get('egresso/filtrarS/{status}', 'EgressoController@filtroStatus')->name('egresso.filtroS');
 
 //================================================================================================
 //==================					 ROTAS DE CAMPUS  						==================

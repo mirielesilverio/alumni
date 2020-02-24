@@ -7,6 +7,7 @@ use App\Matricula;
 use App\UsuarioAluno;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Pagination\Paginator;
 
 class EgressoController extends Controller
 {
@@ -21,28 +22,25 @@ class EgressoController extends Controller
         ->join('matricula','matricula.cpfAluno','=','cpf')
         ->where('matricula.idCampus','=',Session::get('extensao')->idCampus)
         ->select('matricula.prontuario','usuarioaluno.*')
-        ->get();
+        ->paginate(15);
 
-        return view('usuarioaluno.usuarioaluno-listar')->with(compact('alunos'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $generos = DB::table('genero')->get();
-
-        $cursos = DB::table('cursocampus')
-        ->join('curso','curso.id','=','cursocampus.idCurso')
+        $cursos = DB::table('curso')
+        ->join('cursocampus', 'curso.id', '=', 'cursocampus.idCurso')
         ->where('cursocampus.idCampus','=',Session::get('extensao')->idCampus)
-        ->select('cursocampus.*','curso.nome')
+        ->select('curso.id', 'curso.nome')
         ->get();
 
-        return view('usuarioaluno.usuarioaluno-cadastro',compact(('generos'),('cursos')));
+        $situacoes = DB::table('statusformacao')->get();
+
+        $qtd = DB::table('usuarioaluno')
+        ->join('matricula','matricula.cpfAluno','=','cpf')
+        ->where('matricula.idCampus','=',Session::get('extensao')->idCampus)
+        ->select('matricula.prontuario','usuarioaluno.*')
+        ->count();
+
+        return view('usuarioaluno.usuarioaluno-listar')->with(compact(('alunos'),('cursos'),('situacoes'),('qtd')));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -50,46 +48,134 @@ class EgressoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'nome' => 'required',
-            'cpf' => 'required',
-            'prontuario' => 'required',
-            'genero' => 'required',
-            'curso' => 'required'
-        ]);
-
-        try 
+        $fh = fopen($_FILES['file']['tmp_name'], 'r+');
+        fgets($fh);
+        while ($row = fgets($fh))
         {
-         
-            $aluno = new UsuarioAluno([
-                'cpf' => $request->get('cpf'),
-                'nome' => $request->get('nome'),
-                'idGenero' => $request->get('genero')
-            ]);
 
-            $aluno->save();
+            $row = str_replace('á', 'a', $row);
+            $row = str_replace('à', 'a', $row);
+            $row = str_replace('Á', 'A', $row);
+            $row = str_replace('À', 'A', $row);
+            $row = str_replace('ã', 'a', $row);
+            $row = str_replace('Ã', 'A', $row);
+            $row = str_replace('â', 'a', $row);
+            $row = str_replace('Â', 'A', $row);
+            $row = str_replace('é', 'e', $row);
+            $row = str_replace('É', 'E', $row);
+            $row = str_replace('ê', 'e', $row);
+            $row = str_replace('Ê', 'E', $row);
+            $row = str_replace('í', 'i', $row);
+            $row = str_replace('Í', 'I', $row);
+            $row = str_replace('ó', 'o', $row);
+            $row = str_replace('Ó', 'o', $row);
+            $row = str_replace('ô', 'o', $row);
+            $row = str_replace('Ô', 'O', $row);
+            $row = str_replace('Ú', 'U', $row);
+            $row = str_replace('ú', 'u', $row);
+            $row = str_replace('ç', 'c', $row);
+            $row = str_replace('Ç', 'C', $row);
 
-            $matricula = new Matricula([
-                'cpfAluno' => $request->get('cpf'),
-                'prontuario' => $request->get('prontuario'),
-                'idCurso' => $request->get('curso'),
-                'idStatusFormacao' => 1,
-                'idCampus' => Session::get('extensao')->idCampus
-            ]);
+            $data = explode(';', $row);
 
-            $matricula->save();
+            //VERIFICAÇÕES DE ERRO CPF
+            if (strlen(trim($data[1])) != 14 ) 
+            {
+                return redirect('egresso')->with('erro','Falha ao salvar egressos! Motivo: o CPF de '.$data[0].' está incorreto'); 
+            }
 
-            return redirect('egresso/criar')->with('success','Egresso salvo com sucesso!');
+            
+            $curso = DB::table('curso')
+            ->where('nome','=',preg_replace( "/\r|\n/", "", strtoupper($data[3]) ))
+            ->select('id')
+            ->first();
 
-        } catch (Exception $e) 
-        {
-            return redirect('egresso/criar')->with('erro','Falha ao salvar egresso!');   
-        }
+            if(!$curso)
+            {
+                return redirect('egresso')->with('erro','Falha ao salvar egressos! Motivo: o curso de '.$data[0].' não foi encontrado'); 
+            }
 
-        
+            if($data[4] == 'Cancelamento Compulsorio')
+                $data[4] = 'Cancelado';
 
+            elseif ($data[4] == 'Matricula Vinculo Institucional') 
+                $data[4] = 'Matriculado';
+
+            elseif ($data[4] == 'Trancado Voluntariamente') 
+                $data[4] = 'Trancado';
+
+
+            $status = DB::table('statusformacao')
+            ->where('status','=',preg_replace( "/\r|\n/", "", $data[4] ))
+            ->select('id')
+            ->first();
+
+            if(!$status)
+            {
+                return redirect('egresso')->with('erro','Falha ao salvar egressos! Motivo: a situação de '.$data[0].' não foi encontrada'); 
+            }
+
+            $aluno = UsuarioAluno::find($data[1]);
+
+            if($aluno)
+            {
+                $aluno->cpf =$data[1];
+                $aluno->nome = $data[0];
+            }
+
+            else
+            {
+                $aluno = new UsuarioAluno([
+                    'cpf' => $data[1],
+                    'nome' => $data[0]
+                ]);
+            }
+
+            try 
+            {
+                $aluno->save();
+            } 
+            catch (Exception $e) 
+            {
+                return redirect('egresso')->with('erro','Erro ao salvar egressos!');
+            } 
+
+            $matricula = Matricula::find($data[2]);
+
+            if($matricula)
+            {
+                $matricula->cpfAluno = $data[1];
+                $matricula->prontuario = $data[2];
+                $matricula->idCurso = $curso->id;
+                $matricula->idStatusFormacao = $status->id;
+                $matricula->idCampus = Session::get('extensao')->idCampus;
+            }
+            else
+            {
+                $matricula = new Matricula([
+                    'cpfAluno' => $data[1],
+                    'prontuario' => $data[2],
+                    'idCurso' => $curso->id,
+                    'idStatusFormacao' => $status->id,
+                    'idCampus' => Session::get('extensao')->idCampus
+                ]);
+            }
+
+            try 
+            {
+                $matricula->save();
+            } 
+            catch (Exception $e) 
+            {
+                return redirect('egresso')->with('erro','Erro ao salvar egressos!');
+            } 
+            
+        }      
+
+        return redirect('egresso')->with('success','Alunos salvos com sucesso!');
     }
 
 
@@ -104,95 +190,130 @@ class EgressoController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($cpf)
+    public function pesquisa(Request $request)
     {
-        $aluno =  DB::table('usuarioaluno')->where('cpf', $cpf)->first();
+        if ($request->get('pesquisa') == '') 
+            return redirect('egresso');
 
-        $matricula = DB::table('matricula')->where('cpfAluno', $cpf)->first(); 
+        $qtd = DB::table('usuarioaluno')
+        ->where('nome','like','%'.$request->get('pesquisa').'%')
+        ->orWhere('cpf','like','%'.$request->get('pesquisa').'%')
+        ->join('matricula','matricula.cpfAluno','=','cpf')
+        ->where('matricula.idCampus','=',Session::get('extensao')->idCampus)
+        ->select('matricula.prontuario','usuarioaluno.*')
+        ->count();
 
-        $generos = DB::table('genero')->get();
+        if ($qtd == 0) {
+            $alunos = DB::table('usuarioaluno')
+            ->where('nome','like','%'.$request->get('pesquisa').'%')
+            ->orWhere('cpf','like','%'.$request->get('pesquisa').'%')
+            ->join('matricula','matricula.cpfAluno','=','cpf')
+            ->where('matricula.idCampus','=',Session::get('extensao')->idCampus)
+            ->select('matricula.prontuario','usuarioaluno.*')
+            ->get();
+        }
+        else
+        {
+            $alunos = DB::table('usuarioaluno')
+            ->where('nome','like','%'.$request->get('pesquisa').'%')
+            ->orWhere('cpf','like','%'.$request->get('pesquisa').'%')
+            ->join('matricula','matricula.cpfAluno','=','cpf')
+            ->where('matricula.idCampus','=',Session::get('extensao')->idCampus)
+            ->select('matricula.prontuario','usuarioaluno.*')
+            ->paginate($qtd);
+        }
 
-        $cursos = DB::table('cursocampus')
-        ->join('curso','curso.id','=','cursocampus.idCurso')
+        $cursos = DB::table('curso')
+        ->join('cursocampus', 'curso.id', '=', 'cursocampus.idCurso')
         ->where('cursocampus.idCampus','=',Session::get('extensao')->idCampus)
-        ->select('cursocampus.*','curso.nome')
-        ->get();   
+        ->select('curso.id', 'curso.nome')
+        ->get();
 
-        return view('usuarioaluno.usuarioaluno-cadastro',compact(('generos'),('cursos'),('aluno'),('matricula')));            
+        $situacoes = DB::table('statusformacao')->get();
+
+        return view('usuarioaluno.usuarioaluno-listar')->with(compact(('alunos'),('cursos'),('situacoes'),('qtd')));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request)
+    public function filtroCurso($curso)
     {
-        $this->validate($request, [
-            'nome' => 'required',
-            'cpf' => 'required',
-            'prontuario' => 'required',
-            'genero' => 'required',
-            'curso' => 'required'
-        ]);
 
-        try 
-        {
-         
-            $aluno = UsuarioAluno::findOrFail($request->get('cpf'));
+        $qtd = DB::table('usuarioaluno')
+        ->join('matricula','matricula.cpfAluno','=','cpf')
+        ->where('matricula.idCampus','=',Session::get('extensao')->idCampus)
+        ->where('matricula.idCurso','=',$curso)
+        ->select('matricula.prontuario','usuarioaluno.*')
+        ->count();
 
-            $aluno->cpf =  $request->get('cpf');
-            $aluno->nome =  $request->get('nome');
-            $aluno->idGenero =  $request->get('idGenero');
-
-            $aluno->save();
-
-            $matricula = Matricula::where('cpfAluno',$request->get('cpf'))->first();
-
-            
-            $matricula->cpfAluno = $request->get('cpf');
-            $matricula->prontuario = $request->get('prontuario');
-            $matricula->idCurso = $request->get('curso');
-            
-            $matricula->save();
-
-            return redirect('egresso/'.$request->get('cpf').'/editar')->with('success','Egresso salvo com sucesso!');
-
-        } catch (Exception $e) 
-        {
-            return redirect('egresso/'.$request->get('cpf').'/editar')->with('erro','Falha ao salvar egresso!');   
+        if ($qtd == 0) {
+            $alunos = DB::table('usuarioaluno')
+            ->join('matricula','matricula.cpfAluno','=','cpf')
+            ->where('matricula.idCampus','=',Session::get('extensao')->idCampus)
+            ->where('matricula.idCurso','=',$curso)
+            ->select('matricula.prontuario','usuarioaluno.*')
+            ->get();
         }
+        else{
+            $alunos = DB::table('usuarioaluno')
+            ->join('matricula','matricula.cpfAluno','=','cpf')
+            ->where('matricula.idCampus','=',Session::get('extensao')->idCampus)
+            ->where('matricula.idCurso','=',$curso)
+            ->select('matricula.prontuario','usuarioaluno.*')
+            ->paginate($qtd);
+        }
+    
+
+        $cursos = DB::table('curso')
+        ->join('cursocampus', 'curso.id', '=', 'cursocampus.idCurso')
+        ->where('cursocampus.idCampus','=',Session::get('extensao')->idCampus)
+        ->select('curso.id', 'curso.nome')
+        ->get();
+
+        $situacoes = DB::table('statusformacao')->get();
+
+        return view('usuarioaluno.usuarioaluno-listar')->with(compact(('alunos'),('cursos'),('situacoes'),('qtd')));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($cpf)
+    public function filtroStatus($status)
     {
-        $aluno = UsuarioAluno::findOrFail($cpf);
 
-        $matricula = Matricula::where('cpfAluno', $cpf)->first();
+        $qtd =  DB::table('usuarioaluno')
+        ->join('matricula','matricula.cpfAluno','=','cpf')
+        ->where('matricula.idStatusFormacao','=',trim($status))
+        ->where('matricula.idCampus','=',Session::get('extensao')->idCampus)
+        ->select('matricula.prontuario','usuarioaluno.*')
+        ->count();
 
-        try
+        if ($qtd == 0)
         {
-            $matricula->delete();
-            $aluno->delete();
-            return redirect()->route('egresso.index')->with('success', 'Registro removido com sucesso!');
+            $alunos = DB::table('usuarioaluno')
+            ->join('matricula','matricula.cpfAluno','=','cpf')
+            ->where('matricula.idStatusFormacao','=',trim($status))
+            ->where('matricula.idCampus','=',Session::get('extensao')->idCampus)
+            ->select('matricula.prontuario','usuarioaluno.*')
+            ->get();
         }
-        catch (\PDOException $e)
+        
+        else
         {
-            return redirect()->route('egresso.index')->with('error', $e->getCode());
-        } 
+            $alunos = DB::table('usuarioaluno')
+            ->join('matricula','matricula.cpfAluno','=','cpf')
+            ->where('matricula.idStatusFormacao','=',trim($status))
+            ->where('matricula.idCampus','=',Session::get('extensao')->idCampus)
+            ->select('matricula.prontuario','usuarioaluno.*')
+            ->paginate($qtd);
+        }
+        
+
+        $cursos = DB::table('curso')
+        ->join('cursocampus', 'curso.id', '=', 'cursocampus.idCurso')
+        ->where('cursocampus.idCampus','=',Session::get('extensao')->idCampus)
+        ->select('curso.id', 'curso.nome')
+        ->get();
+
+        $situacoes = DB::table('statusformacao')->get();
+
+        return view('usuarioaluno.usuarioaluno-listar')->with(compact(('alunos'),('cursos'),('situacoes'),('qtd')));
     }
+
+    
 }
