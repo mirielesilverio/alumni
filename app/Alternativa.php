@@ -17,5 +17,9 @@ class Alternativa extends Model
     	'alternativa',
     	'idPergunta'
     ];
+
+    public function pergunta(){
+        return $this->belongsTo(Pergunta::class, 'idPergunta');
+    }
  
 }

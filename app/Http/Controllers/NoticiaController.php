@@ -24,6 +24,20 @@ class NoticiaController extends Controller
             return view('noticia.noticia-listar')->with(compact('noticias'));
         }
 
+        if(Session::has('aluno'))
+        {
+
+            $noticias = DB::table('noticia')
+                ->whereIn('idUsuarioCex',DB::table('usuariocex')
+                    ->whereIn('usuariocex.idCampus',DB::table('matricula')
+                        ->where('cpfAluno',Session::get('aluno')->cpf)
+                        ->select('matricula.idCampus')
+                    )->select('id'))
+                ->get();
+                
+            return view('noticia.noticia-listar-aluno')->with(compact(('noticias')));
+        }
+
         //return view('noticia.index');
     }
 
@@ -84,15 +98,12 @@ class NoticiaController extends Controller
 
     public function show($id)
     {
-        if(Session::has('extensao'))
-        {
-            $noticia = DB::table('noticia')
-            ->where('noticia.id',$id)
-            ->join('usuariocex','noticia.idUsuarioCex','=','usuariocex.id')
-            ->select('usuariocex.nome','usuariocex.sobrenome','noticia.*')
-            ->first();
-            return view('noticia.readExt')->with(compact('noticia'));
-        }
+        $noticia = DB::table('noticia')
+        ->where('noticia.id',$id)
+        ->join('usuariocex','noticia.idUsuarioCex','=','usuariocex.id')
+        ->select('usuariocex.nome','usuariocex.sobrenome','noticia.*')
+        ->first();
+        return view('noticia.readExt')->with(compact('noticia'));
     }
     /*public function show($id)
     {

@@ -1,27 +1,14 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+
+Route::get('perfil', 'AlunoController@index')->name('perfil.aluno');
 
 
-
-
-Route::get('/', function () {
-    return view('welcome');
+Route::get('teste', function () {
+    return view('aplicacao.aplicacao-create');
 });
 
-
-Route::get('perfil', function () {
-    return view('perfil.index');
-});
+Route::get('/', 'IndexController@index');
 
 //================================================================================================
 //==================					ROTAS DE PERFIL 						==================
@@ -29,6 +16,9 @@ Route::get('perfil', function () {
 Route::get('perfil', 'AlunoController@index')->name('perfil.aluno');
 Route::get('perfil/editar', 'AlunoController@edit')->name('perfil.aluno.editar');
 Route::post('perfil/atualizar/{cpf}', 'AlunoController@update')->name('perfil.aluno.atualizar');
+
+Route::get('extensao', 'ExtensaoController@index')->name('perfil.extensao');
+
 
 //================================================================================================
 //==================					ROTAS DE CADASTRO 						==================
@@ -98,6 +88,32 @@ Route::get('questionario/{id}/pergunta/criar', 'PerguntaController@create')->nam
 Route::post('questionario/{id}/pergunta/salvar', 'PerguntaController@store')->name('pergunta.salvar');
 
 
-Route::get('questionario/{id}/responder', 'QuestionarioController@show')->name('questionario.ver');
+Route::get('questionario/{id}/responder/{aplicacao}', 'QuestionarioController@show')->name('questionario.ver');
+
+Route::post('questionario/{id}/gravar', 'QuestionarioController@responder')->name('questionario.responder');
+
+//================================================================================================
+//==================					   ROTAS DE APLICAÇÃO  			     	==================
+//================================================================================================
+Route::get('aplicacao', 'AplicacaoController@index')->name('aplicacao.index');
+Route::get('aplicacao/criar', 'AplicacaoController@create')->name('aplicacao.criar');
+Route::post('aplicacao/salvar', 'AplicacaoController@store')->name('aplicacao.salvar');
+Route::get('aplicacao/deletar/{id}', 'AplicacaoController@destroy')->name('aplicacao.apagar');
+Route::get('aplicacao/{id}/ver', 'AplicacaoController@show')->name('aplicacao.ver');
+Route::get('aplicacao/{id}/editar', 'AplicacaoController@edit')->name('aplicacao.editar');
+Route::post('aplicacao/{id}/atualizar', 'AplicacaoController@update')->name('aplicacao.atualizar');
+
+Route::get('aplicacao/relatorio/{id}', 'AplicacaoController@relatorio')->name('aplicacao.relatorio');
+
+
+//================================================================================================
+//==================					ROTAS DE MENSAGEM INDEX  		     	==================
+//================================================================================================
+Route::post('send', 'MensagemIndexController@send')->name('mensagem.enviar');
+Route::get('mensagens', 'MensagemIndexController@index')->name('mensagem.index');
+Route::get('mensagem/{id}/ler', 'MensagemIndexController@show')->name('mensagem.ler');
+
+
+
 
 

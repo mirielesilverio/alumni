@@ -43,13 +43,20 @@ class LoginController extends Controller
 
                     $genero = Genero::find($aluno->idGenero);
                     $login = Login::find($aluno->idLogin);                    
+                    $formacao = DB::table('matricula')->where('cpfAluno',$aluno->cpf)
+                    ->join('curso','curso.id','=','matricula.idCurso')
+                    ->join('campus','campus.id','=','matricula.idCampus')
+                    ->join('statusformacao','statusformacao.id','=','matricula.idStatusFormacao')
+                    ->select('curso.nome','campus.sigla','statusformacao.status')
+                    ->get();
 
-
-                    return view('perfil.index')->with(compact(('aluno'),('login'),('genero'))); 
+                    return view('perfil.perfil-aluno')->with(compact(('aluno'),('login'),('genero'),('formacao'))); 
                 }
                 elseif ($login->idTipoUsuario == 2) {
 
                     $ext = DB::table('usuariocex')->where('idLogin', $login->id)->first();
+
+                    $campus = DB::table('campus')->where('id',$ext->idCampus)->first();
 
                     //echo($ext->id);
                     Session::put('extensao',$ext);
@@ -58,7 +65,7 @@ class LoginController extends Controller
                     $login = Login::find($ext->idLogin);                    
 
 
-                    return view('perfil.index')->with(compact(('ext'),('login'),('genero'))); 
+                    return view('perfil.perfil-extensao')->with(compact(('ext'),('login'),('genero'),('campus'))); 
                 }
                 else
                 {

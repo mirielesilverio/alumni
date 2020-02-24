@@ -25,8 +25,14 @@ class AlunoController extends Controller
         $aluno = session('aluno');
         $genero = Genero::find($aluno->idGenero);
         $login = Login::find($aluno->idLogin);
+        $formacao = DB::table('matricula')->where('cpfAluno',$aluno->cpf)
+                ->join('curso','curso.id','=','matricula.idCurso')
+                ->join('campus','campus.id','=','matricula.idCampus')
+                ->join('statusformacao','statusformacao.id','=','matricula.idStatusFormacao')
+                ->select('curso.nome','campus.sigla','statusformacao.status')
+                ->get();
         
-        return view('perfil.index')->with(compact(('aluno'),('login'),('genero')));   
+        return view('perfil.perfil-aluno')->with(compact(('aluno'),('login'),('genero'),('formacao')));   
     }
     
     public function create()
@@ -52,35 +58,6 @@ class AlunoController extends Controller
 
         return view('perfil.edit')->with(compact(('aluno'),('login'),('generos')));   
     }
-
-    /*public function saveImage($image, $type, $size)
-    {
-        if (!is_null($image))
-        {
-            $file = $image;
-            $extension = $image->getClientOriginalExtension();
-            $fileName = date() . session('aluno')->id .'.' . $extension; 
-            $destinationPath = public_path('images/'.$id.'/');
-            $url = 'http://'.$_SERVER['HTTP_HOST'].'/images/'.$id.'/'.$fileName;
-
-            $fullPath = $destinationPath.$fileName;
-            
-            if (!file_exists($destinationPath)) {
-                File::makeDirectory($destinationPath, 0775);
-            }
-
-            $image = Image::make($file)
-                ->resize($size, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                })
-                ->encode('jpg');
-            $image->save($fullPath, 100);
-            return $url;
-        } else 
-        {
-            return 'http://'.$_SERVER['HTTP_HOST'].'/images/'.$type.'/placeholder300x300.jpg';
-        }
-    }*/
 
     public function update(Request $request, $cpf)
     {
@@ -123,10 +100,6 @@ class AlunoController extends Controller
             return redirect()->back()->with('erro','Erro ao atualizar registro!');
         }
 
-        /*if ($request->hasFile('perfilImg')) 
-        {
-           $product->path_image = $repo->saveImage($request->perfilImg, $product->id, 'products', 250);
-        }*/
     }
 
     public function destroy($id)

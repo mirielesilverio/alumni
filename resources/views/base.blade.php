@@ -3,7 +3,7 @@
 <html lang="pt-br">
 
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>
     Alumni
@@ -19,6 +19,8 @@
   <link href="{{ asset('css/argon-dashboard.css?v=1.1.0') }}" rel="stylesheet" />
 
   <script src="{{ asset('js/plugins/jquery/dist/jquery.min.js') }}"></script>
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+
   @yield('headLk')
 </head>
 
@@ -30,8 +32,8 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <!-- Brand -->
-      <a class="navbar-brand pt-0" href="./index.html">
-        <img src="{{ asset('img/brand/blue.png') }}" class="navbar-brand-img" alt="...">
+      <a class="navbar-brand pt-0">
+        <img src="{{ asset('img/brand/blue.png') }}">
       </a>
       <!-- User -->
       <ul class="nav align-items-center d-md-none">
@@ -102,22 +104,28 @@
         </div>
         
         <!-- Navigation -->
-        @if(Session::has('extensao'))
           <ul class="navbar-nav">
             <li class="nav-item  class=" active" ">
             <a class=" nav-link active " href=""> <i class="fas fa-home mr-3"></i> Home
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link " href="{{route('curso.index')}}">
-                <i class="fas fa-university Icons"></i> Cursos
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link " href="{{route('egresso.index')}}">
-                <i class="fas fa-user-graduate"></i> Egressos
-              </a>
-            </li>
+            @if(Session::has('extensao'))
+              <li class="nav-item">
+                <a class="nav-link " href="{{route('mensagem.index')}}">
+                  <i class="fas fa-envelope"></i></i> Mensagens Index
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="{{route('curso.index')}}">
+                  <i class="fas fa-university Icons"></i> Cursos
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="{{route('egresso.index')}}">
+                  <i class="fas fa-user-graduate"></i> Egressos
+                </a>
+              </li>
+            @endif
             <li class="nav-item">
               <a class="nav-link " href="{{route('evento.index')}}">
                 <i class="fas fa-calendar-alt"></i> Eventos
@@ -133,10 +141,14 @@
                 <i class="fab fa-wpforms"></i> Questionários
               </a>
             </li>
+            @if(Session::has('extensao'))
+              <li class="nav-item">
+                <a class="nav-link " href="{{route('aplicacao.index')}}">
+                  <i class="fab fa-wpforms"></i> Aplicações
+                </a>
+              </li>
+            @endif
           </ul>
-        @elseif(Session::has('aluno'))
-
-        @endif
         
       </div>
     </div>
@@ -151,7 +163,7 @@
             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="media align-items-center">
                 <span class="avatar avatar-sm rounded-circle">
-                  <img alt="Image placeholder" src="{{ asset('img/theme/team-4-800x800.jpg') }}">
+                  <!--<img alt="Image placeholder" src="{{ asset('img/theme/team-4-800x800.jpg') }}">-->
                 </span>
                 <div class="media-body ml-2 d-none d-lg-block">
                   <span class="mb-0 text-sm  font-weight-bold text-gray-dark">
@@ -168,7 +180,11 @@
               <div class=" dropdown-header noti-title">
                 <h6 class="text-overflow m-0">Bem-Vindo!</h6>
               </div>
-              <a href="" class="dropdown-item">
+              @if (Session::has('aluno'))
+                <a href="{{route('perfil.aluno')}}" class="dropdown-item">
+              @elseif(Session::has('extensao'))
+                <a href="{{route('perfil.extensao')}}" class="dropdown-item">
+              @endif
                 <i class="ni ni-single-02"></i>
                 <span>Perfil</span>
               </a>

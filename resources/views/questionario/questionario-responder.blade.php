@@ -1,7 +1,7 @@
 @extends('base')
 
 @section('headLk')
-    <link rel="stylesheet" type="text/css" href="{{asset('css/flutuante.css')}}">
+    <script src="{{asset('js/responder-questionario.js')}}"></script>
 @endsection
 
 @section('main')
@@ -34,30 +34,28 @@
                     <p class="text-justify">{{$questionario->descricao}}</p>
                 </div>
                 <div class="card-body pl-md-6 pr-md-6">
-                    <form>
+                    <form method="POST" id="questionario" action="{{route('questionario.responder',$questionario->id)}}">
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                        <input type="hidden" name="aplicacao" value="{{$aplicacao}}">
                         @foreach($perguntas as $pergunta)
                             <p>{{$pergunta->pergunta}}</p>
                             @if($pergunta->tipo == 'A')
-                                <div class="form-row justify-content-center">
-                                    @php
-                                        print_r((array) $pergunta->alternativas());
-                                    @endphp
-                                    @foreach($pergunta->alternativas() as $alternativa)
+                                <div class="form-row ">
+                                    @foreach($pergunta->alternativas()->get() as $alternativa)
                                         <div class="form-group col-md-6">
-                                            <label for="rd1" class="btn btn-primary btn-block pb-3 pt-3">Opção A</label>
-                                            <input type="radio" name="rd1" id="rd1" class="d-none">
+                                            <label id="labelalt{{$alternativa->id}}" for="alt{{$alternativa->id}}" class="btn btn-light btn-block pb-3 pt-3 alternativas{{$pergunta->id}}" onclick="responder('alternativas{{$pergunta->id}}','labelalt{{$alternativa->id}}');" >{{$alternativa->alternativa}}</label>
+                                            <input type="radio" name="alternativas{{$pergunta->id}}" id="alt{{$alternativa->id}}" class="d-none" value="{{$alternativa->id}}">
                                         </div>
                                     @endforeach
                                 </div>
                             @else
                                 <div class="form-group ">
-                                    <textarea class="form-control-alternative form-control"></textarea>
+                                    <textarea class="form-control-alternative form-control" name="dissertativas[{{$pergunta->id}}]"></textarea>
                                 </div>
                             @endif
                         @endforeach
                         <div class="form-row justify-content-end">
-                            <button class="btn btn-primary mr-2">Voltar</button>
-                            <button class="btn btn-primary">Avançar</button>
+                            <a class="btn btn-success text-white" onclick="finalizar()">Salvar Respostas</a>
                         </div>
                     </form>
                 </div>

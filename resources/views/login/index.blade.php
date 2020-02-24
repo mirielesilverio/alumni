@@ -49,7 +49,7 @@
 					        </div>
 					    @endif
 						<form class="mg-t-3" action="{{route('logar')}}" method="POST">
-							{{ csrf_field() }}
+							 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
 							<div class="form-group mb-3">
 			                  	<div class="input-group input-group-alternative">

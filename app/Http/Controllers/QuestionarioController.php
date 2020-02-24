@@ -25,7 +25,27 @@ class QuestionarioController extends Controller
             return view('questionario.questionario-listar')->with(compact('questionarios'));
         }
 
-        //return view('noticia.index');
+        if(Session::has('aluno'))
+        {
+            $questionarios = DB::table('questionario')
+                    ->whereIn('questionario.id',DB::table('aplicacao')
+                        ->whereIn('aplicacao.id',DB::table('matricula')
+                            ->where('cpfAluno',Session::get('aluno')->cpf)
+                            ->join('cursoaplicacao','matricula.idCurso','=','cursoaplicacao.idCurso')
+                            ->select('cursoaplicacao.idAplicacao'))
+                        ->where('aplicacao.dataFim','>',date('Y-m-d'))
+                        ->where('aplicacao.dataInicio','<=',date('Y-m-d'))
+                        ->select('idQuestionario'))
+                    ->join('aplicacao','aplicacao.idQuestionario','=','questionario.id')
+                    ->where('aplicacao.dataFim','>',date('Y-m-d'))
+                    ->where('aplicacao.dataInicio','<=',date('Y-m-d'))
+                    ->select('questionario.*','aplicacao.id as aplicacao')
+                    ->orderBy('questionario.id','desc')
+                    ->get();
+
+            return view('questionario.questionario-aluno-listar')->with(compact('questionarios'));
+        }
+        
     }
 
     public function create()
@@ -61,7 +81,7 @@ class QuestionarioController extends Controller
   
     }
 
-    public function show($id)
+    public function show(Request $request, $id,$aplicacao)
     {
         if(Session::has('extensao'))
         {
@@ -80,7 +100,10 @@ class QuestionarioController extends Controller
                     ->where('id',$id)
                     ->first();
 
-            return view('questionario.questionario-responder')->with(compact('questionario'));
+            $perguntas = Pergunta::where('idQuestionario', $id)->get();
+
+
+            return view('questionario.questionario-responder')->with(compact(('questionario'),('perguntas'),('aplicacao')));
         }
     }
 
@@ -89,6 +112,38 @@ class QuestionarioController extends Controller
         $questionario = DB::table('questionario')->where('id',$id)->first();
         return view('questionario.questionario-create')->with(compact('questionario'));
     }
+
+    public function responder(Request $request, $id)
+    {
+        $this->validate($request, [
+            'dissertativas'=> 'required'
+        ]);
+
+        $perguntas = DB::table('pergunta')->where('idQuestionario',$id)->where('tipo','A')->get();
+        try {
+            foreach ($perguntas as $pergunta) 
+            {
+                DB::insert('insert into respostaalternativa (cpfAluno, idAplicacao,idPergunta,idAlternativa) values (?, ?, ?, ?)', [Session::get('aluno')->cpf, $request->get('aplicacao'),$pergunta->id,$request->get('alternativas'.$pergunta->id)]);
+            }
+
+            $perguntas = DB::table('pergunta')->where('idQuestionario',$id)->where('tipo','D')->get();
+
+            foreach ($perguntas as $pergunta) 
+            {
+                DB::insert('insert into respostadissertativa (cpfAluno, idAplicacao,idPergunta,resposta) values (?, ?, ?, ?)', [Session::get('aluno')->cpf, $request->get('aplicacao'),$pergunta->id,$request->get('dissertativas')[$pergunta->id]]);
+            }
+
+            return redirect('questionario')->with('success','Questionario salvo com sucesso!');
+
+
+        } catch (Exception $e) {
+            return redirect('questionario')->with('erro','Erro ao salvar questionario!');
+
+        }
+            
+
+    }
+
     public function update(Request $request, $id)
     {
         

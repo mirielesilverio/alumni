@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Pergunta extends Model
 {
 	protected $table = 'pergunta';
@@ -21,7 +22,9 @@ class Pergunta extends Model
 
     public function alternativas()
     {
-        return $this->hasMany('App\Alternativa');
+       
+        return $this->hasMany(Alternativa::class,'idPergunta','id');
+
     }
  
 }
