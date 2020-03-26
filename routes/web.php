@@ -33,6 +33,8 @@ Route::post('cadastro/salvar', 'CadastroController@store')->name('cadastro.salva
 Route::get('login', 'LoginController@index')->name('login');
 Route::post('logar', 'LoginController@login')->name('logar');
 Route::get('logout', 'LoginController@logout')->name('logout');
+Route::get('recuperar', 'LoginController@password')->name('password');
+
  
 
 //================================================================================================
@@ -111,6 +113,16 @@ Route::get('aplicacao/relatorio/{id}', 'AplicacaoController@relatorio')->name('a
 Route::post('send', 'MensagemIndexController@send')->name('mensagem.enviar');
 Route::get('mensagens', 'MensagemIndexController@index')->name('mensagem.index');
 Route::get('mensagem/{id}/ler', 'MensagemIndexController@show')->name('mensagem.ler');
+
+
+//================================================================================================
+//==================				ROTAS DE RECUPERAÇÃO DE SENHA 		     	==================
+//================================================================================================
+Route::post('senha', 'MailController@send')->name('senha.recuperar');
+Route::get('recuperar/{email}', 'MailController@recover')->name('senha.redefinir');
+Route::post('senha/atualizar', 'MailController@update')->name('senha.atualizar');
+
+
 
 
 

@@ -21,6 +21,12 @@ class LoginController extends Controller
     {
         return view('login.index');   
     }
+
+    public function password()
+    {
+        return view('login.senha');   
+    }
+
     public function login(Request $request){
 
         $this->validate($request, [

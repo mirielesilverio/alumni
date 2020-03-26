@@ -29,9 +29,9 @@
 						<p class="text-center">Encontre ex-alunos e estabeleça contato pessoal e profissional.</p>
 					</div>
 					<div class="card-body">
-						@if(session()->get('success'))
+						@if(isset($success))
 					        <div class="alert alert-success col-12">
-					          {{ session()->get('success') }}  
+					          {{ $success }}  
 					        </div>
 					    @endif
 					    @if(isset($erro))
@@ -48,7 +48,7 @@
 					          </ul>
 					        </div>
 					    @endif
-						<form class="mg-t-3" action="{{route('logar')}}" method="POST">
+						<form class="mg-t-3" action="{{route('senha.recuperar')}}" method="POST">
 							 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
 							<div class="form-group mb-3">
@@ -60,18 +60,8 @@
 			                  	</div>
 			                </div>
 
-							<div class="form-group">
-			                  	<div class="input-group input-group-alternative">
-			                    	<div class="input-group-prepend">
-			                      		<span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-			                    	</div>
-			                    	<input class="form-control" type="password" id="password" name="password" placeholder="Digite sua senha" required="">
-			                  	</div>
-			                </div>
-
-						    <button class="btn col-8 offset-2 btn-primary mt-4 mb-2">Login</button>
+						    <button class="btn col-8 offset-2 btn-primary mt-4 mb-2">Recuperar Senha</button>
 						</form>
-						<p class="text-center"><a href="{{route('password')}}">Esqueci minha senha</a></p>
 						<p class="text-center mg-t-3 text-blue"><a href="{{route('cadastro')}}">Não possuo conta: Registre-se</a></p>
 					</div>
 				</div>

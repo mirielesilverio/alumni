@@ -25,13 +25,12 @@
 			<div class="row d-flex align-content-center justify-content-center">
 				<div class="card shadow border-0 col-md-5 border-0 pr-0 pl-0 pb-2 mt-5">
 					<div class="card-header pl-4 border-0">
-						<h3 class="text-center mt-3">Bem-vindo ao Alumni</h3>
-						<p class="text-center">Encontre ex-alunos e estabeleça contato pessoal e profissional.</p>
+						<h3 class="text-center mt-3">Redefinição de senha</h3>
 					</div>
 					<div class="card-body">
-						@if(session()->get('success'))
+						@if(isset($success))
 					        <div class="alert alert-success col-12">
-					          {{ session()->get('success') }}  
+					          {{ $success }}  
 					        </div>
 					    @endif
 					    @if(isset($erro))
@@ -48,30 +47,30 @@
 					          </ul>
 					        </div>
 					    @endif
-						<form class="mg-t-3" action="{{route('logar')}}" method="POST">
-							 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-
-							<div class="form-group mb-3">
-			                  	<div class="input-group input-group-alternative">
-			                    	<div class="input-group-prepend">
-			                      		<span class="input-group-text"><i class="ni ni-email-83"></i></span>
-			                    	</div>
-			                    	<input class="form-control" type="email" id="email" name="email" placeholder="Digite seu email" maxlength="120" required="">
-			                  	</div>
-			                </div>
-
+						<form class="mg-t-3" action="{{route('senha.atualizar')}}" method="POST">
+							<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+							<input type="hidden" name="email" value="{{$email}}">
 							<div class="form-group">
 			                  	<div class="input-group input-group-alternative">
 			                    	<div class="input-group-prepend">
 			                      		<span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
 			                    	</div>
-			                    	<input class="form-control" type="password" id="password" name="password" placeholder="Digite sua senha" required="">
+			                    	<input class="form-control" type="password" id="senha" name="senha" placeholder="Digite uma nova senha" required="">
 			                  	</div>
 			                </div>
 
-						    <button class="btn col-8 offset-2 btn-primary mt-4 mb-2">Login</button>
+			                <div class="form-group">
+			                  	<div class="input-group input-group-alternative">
+			                    	<div class="input-group-prepend">
+			                      		<span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+			                    	</div>
+			                    	<input class="form-control" type="password" id="confirmar" name="confirmar" placeholder="Confirmar nova senha" required="">
+			                  	</div>
+			                </div>
+
+						    <button class="btn col-8 offset-2 btn-primary mt-4 mb-2">Redefinir Senha</button>
 						</form>
-						<p class="text-center"><a href="{{route('password')}}">Esqueci minha senha</a></p>
+						<p class="text-center mg-t-3 text-blue"><a href="{{route('login')}}">Já possuo conta: Login </a></p>
 						<p class="text-center mg-t-3 text-blue"><a href="{{route('cadastro')}}">Não possuo conta: Registre-se</a></p>
 					</div>
 				</div>
